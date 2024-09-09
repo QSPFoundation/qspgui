@@ -51,26 +51,14 @@ execute_process(COMMAND "${CMAKE_COMMAND}" --build .
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(qsp_force_shared_crt ON CACHE BOOL "" FORCE)
 
-# Add oniguruma directly to our build
+# Add qsp directly to our build
 set(CMAKE_POLICY_DEFAULT_CMP0063 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 add_subdirectory("${CMAKE_BINARY_DIR}/qsp-src"
 				 "${CMAKE_BINARY_DIR}/qsp-build"
 )
-#add_library(qsp)
 
 install(TARGETS qsp DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT runtime)
-
-install(
-	DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cmake
-	DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-)
-
-install(FILES
-		${CMAKE_SOURCE_DIR}/cmake/Modules/Findqsp.cmake
-	DESTINATION
-		"${CMAKE_INSTALL_DATAROOTDIR}/cmake/Modules"
-)
 
 if(USE_INSTALLED_WX)
 	find_package(wxWidgets REQUIRED base core adv aui html)

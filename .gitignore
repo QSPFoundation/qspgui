@@ -1,5 +1,18 @@
-# Prerequisites
-*.d
+build/*
+
+# CMake files
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+/cmake-build-debug/
+/cmake-build-release/
 
 # Compiled Object files
 *.slo
@@ -16,10 +29,6 @@
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
-
 # Compiled Static libraries
 *.lai
 *.la
@@ -30,3 +39,11 @@
 *.exe
 *.out
 *.app
+
+# Visual Studio files
+/.vs/
+/out/
+/CMakeSettings.json
+
+# Idea files
+/.idea/

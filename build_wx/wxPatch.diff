@@ -75,6 +75,20 @@ index c88e3070da..466c8ba01e 100644
          }
      }
  
+@@ -3773,6 +3774,13 @@ void wxAuiManager::OnLeftDown(wxMouseEvent& event)
+ {
+     m_currentDragItem = -1;
+
++    // We get incorrect coordinates of the mouse position when
++    // there's a pane attached to the left side,
++    // use screen coordinates to get correct local position
++    wxPoint pt = ::wxGetMousePosition();
++    wxPoint client_pt = m_frame->ScreenToClient(pt);
++    event.SetPosition(client_pt);
++
+     wxAuiDockUIPart* part = HitTest(event.GetX(), event.GetY());
+     if (part)
+     {
 diff --git a/src/generic/animateg.cpp b/src/generic/animateg.cpp
 index 365ffd0579..52672ef8b4 100644
 --- a/src/generic/animateg.cpp

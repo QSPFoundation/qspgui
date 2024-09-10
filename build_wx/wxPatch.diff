@@ -78,7 +78,7 @@ index c88e3070da..466c8ba01e 100644
 @@ -3773,6 +3774,13 @@ void wxAuiManager::OnLeftDown(wxMouseEvent& event)
  {
      m_currentDragItem = -1;
-
+ 
 +    // We get incorrect coordinates of the mouse position when
 +    // there's a pane attached to the left side,
 +    // use screen coordinates to get correct local position

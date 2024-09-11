@@ -99,6 +99,8 @@ else()
 	set(wxUSE_PROTOCOL OFF)
 	set(wxUSE_URL OFF)
 	set(wxUSE_FS_INET OFF)
+	set(wxUSE_STC OFF)
+	set(wxUSE_WEBVIEW OFF)
 
 	set(wxBUILD_MONOLITHIC OFF)
 	set(wxBUILD_SAMPLES OFF)

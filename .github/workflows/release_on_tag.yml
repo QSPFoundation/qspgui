@@ -8,12 +8,12 @@ run-name: Release on tag ${{ github.ref_name }}
 
 jobs:
   build:
-    name: Build and upload
+    name: Build and upload ${{ github.ref_name }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build release ${{ github.ref_name }}
+      - name: Build release
         run: ./build_release.sh
       - name: Get annotation
         id: tag-data

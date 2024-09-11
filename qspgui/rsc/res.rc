@@ -1,3 +1,7 @@
+#ifndef wxUSE_DPI_AWARE_MANIFEST
+#define wxUSE_DPI_AWARE_MANIFEST 2
+#endif
+#include "wx/msw/wx.rc"
 #include "resource.h"
 
-IDI_LOGO ICON "misc\\icons\\logo.ico"
+IDI_LOGO ICON "misc/icons/logo.ico"

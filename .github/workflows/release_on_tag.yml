@@ -3,8 +3,8 @@ on:
     tags:
       - 'v*'
 
-name: Release
-run-name: Release ${{ github.ref }}
+name: Release on tag
+run-name: Release on tag ${{ github.ref_name }}
 
 jobs:
   build:
@@ -13,21 +13,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build release
+      - name: Build release ${{ github.ref_name }}
         run: ./build_release.sh
       - name: Get annotation
         id: tag-data
         run: |
           {
-            echo 'annotation << EOF'
+            echo 'annotation <<EOF'
             git for-each-ref "${GITHUB_REF}" --format '%(contents)'
             echo 'EOF'
           } >> "${GITHUB_OUTPUT}"
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
-          # make_latest: true
-          draft: true
+          make_latest: true
           body: ${{ steps.tag-data.outputs.annotation }}
           files: |
             dist/qspgui_win32.zip

@@ -1,7 +1,7 @@
 on:
   push:
     tags:
-      - 'ver*'
+      - 'v*'
 
 name: Release
 run-name: Release ${{ github.ref }}

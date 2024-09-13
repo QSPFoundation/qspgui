@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Validation
-[ ! -d "./cross_build" ] && echo "Run this script from the project root directory" && exit
-[ -d "./cross_build/win32/out" ] || echo "Output directory doesn't exist yet" || exit
+[ ! -d "./cross_build" ] && ( echo "Run this script from the project root directory" && exit )
+[ ! -d "./cross_build/win32/out" ] && ( echo "Output directory doesn't exist yet" && exit )
 
 # Cleanup
 rm ./cross_build/win32/out/bin/onig-config

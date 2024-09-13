@@ -28,5 +28,4 @@ jobs:
         with:
           make_latest: true
           body: ${{ steps.tag-data.outputs.annotation }}
-          files: |
-            dist/qspgui_win32.zip
+          files: dist/*

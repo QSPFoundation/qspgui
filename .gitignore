@@ -40,6 +40,11 @@ _deps
 *.exe
 *.out
 *.app
+*.AppImage
+
+# Release files
+/cross_build/linux64/
+/cross_build/win32/
 
 # Visual Studio files
 /.vs/

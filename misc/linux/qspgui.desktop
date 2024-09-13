@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=QSP (classic)
+Type=Application
+Terminal=false
+Categories=Game;Development;
+Exec=qspgui
+Icon=qsp

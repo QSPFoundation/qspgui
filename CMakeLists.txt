@@ -9,13 +9,14 @@ elseif (APPLE OR NOT UNIX)
 	message(FATAL_ERROR "Only Windows and Linux targets are supported")
 endif()
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
-
-set(CMAKE_INCLUDE_CURRENT_DIR True)
-
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
+
+set(CMAKE_INCLUDE_CURRENT_DIR True)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH True)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 if (CMAKE_COMPILER_IS_GNUCC)
 	set(PROJECT_COMPILER_FLAGS "-Wall")
@@ -165,10 +166,12 @@ if (WIN32)
 	configure_file("${CMAKE_SOURCE_DIR}/misc/common/icons/logo.ico" "${CMAKE_BINARY_DIR}/misc/icons/logo.ico" COPYONLY)
 	add_executable(qspgui WIN32 ${QSPGUI_SOURCES})
 	target_compile_definitions(qspgui PRIVATE _CRT_SECURE_NO_WARNINGS)
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT qspgui)
 	set(RESOURCES_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 	install(FILES "${FMOD_DLL}" TYPE BIN)
-	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT qspgui)
 else()
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps")
 	add_executable(qspgui ${QSPGUI_SOURCES})
 	set(RESOURCES_DIR "${CMAKE_INSTALL_PREFIX}/share/qspgui")
 	install(FILES "${FMOD_LIBRARY}" TYPE LIB)

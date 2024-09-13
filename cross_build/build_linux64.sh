@@ -13,7 +13,7 @@ USER_IDS="-e BUILDER_UID=$( id -u ) -e BUILDER_GID=$( id -g ) -e BUILDER_USER=$(
 # Allow usage of fuse
 DOCKER_OPTS="--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined"
 
-docker run --rm -ti \
+docker run --rm \
   -v "$(pwd)":/work \
   $HOST_VOLUMES \
   $DOCKER_OPTS \

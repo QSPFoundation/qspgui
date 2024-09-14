@@ -1,5 +1,7 @@
 # Classic QSP player
 
+Please check [Releases](https://github.com/QSPFoundation/qspgui/releases) section.
+
 ## Linux build
 
 ```bash

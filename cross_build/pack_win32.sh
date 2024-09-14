@@ -11,4 +11,4 @@ rm ./cross_build/win32/out/bin/onig-config
 (cd ./cross_build/win32/out/bin/; zip -r qspgui_win32.zip ./)
 
 # Move to dist
-mv ./cross_build/win32/out/bin/qspgui_win32.zip ./dist/
+mv ./cross_build/win32/out/bin/qspgui_win32.zip "./dist/qspgui-$QSP_RELEASE_VER-win32.zip"

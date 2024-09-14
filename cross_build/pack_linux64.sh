@@ -8,4 +8,4 @@
 rm ./cross_build/linux64/linuxdeploy-*.AppImage
 
 # Move to dist
-mv ./cross_build/linux64/*.AppImage ./dist/
+mv ./cross_build/linux64/*.AppImage "./dist/QSP_Classic-$QSP_RELEASE_VER-x86_64.AppImage"

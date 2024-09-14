@@ -22,7 +22,7 @@ jobs:
             echo 'EOF'
           } >> "${GITHUB_OUTPUT}"
       - name: Build release
-        run: ./build_release.sh
+        run: ./build_release.sh "${{ github.ref_name }}"
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:

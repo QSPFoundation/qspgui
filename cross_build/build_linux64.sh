@@ -12,9 +12,11 @@ HOST_VOLUMES="-v $SSH_DIR:/home/$(id -un)/.ssh"
 USER_IDS="-e BUILDER_UID=$( id -u ) -e BUILDER_GID=$( id -g ) -e BUILDER_USER=$( id -un ) -e BUILDER_GROUP=$( id -gn )"
 # Allow usage of fuse
 DOCKER_OPTS="--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined"
+tty -s && TTY_ARGS="-ti" || TTY_ARGS=""
 
 docker run --rm \
   -v "$(pwd)":/work \
+  $TTY_ARGS \
   $HOST_VOLUMES \
   $DOCKER_OPTS \
   $USER_IDS \

@@ -38,7 +38,6 @@ else()
 	message(FATAL_ERROR "Compiler is not supported")
 endif()
 
-set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
 # Download and unpack qsp at configure time

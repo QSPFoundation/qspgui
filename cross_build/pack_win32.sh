@@ -4,18 +4,22 @@ set -e
 
 # Validation
 [ ! -d "./cross_build" ] && echo "Run this script from the project root directory" && exit
+[ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
 
 # Build
 mkdir -p ./cross_build/win32
 
-./cross_build/dockcross-windows-static-x86 cmake -S . -B ./cross_build/win32 -GNinja -DAPP_VERSION="$QSP_RELEASE_VER" -DCMAKE_INSTALL_PREFIX=./cross_build/win32/out -DCMAKE_BUILD_TYPE=Release
-./cross_build/dockcross-windows-static-x86 cmake --build ./cross_build/win32 --parallel --target install
+REL_BUILD_DIR=./cross_build/win32
 
-# Cleanup
-rm ./cross_build/win32/out/bin/onig-config
-
-# Packaging
-(cd ./cross_build/win32/out/bin/; zip -r qspgui_win32.zip ./)
+./cross_build/dockcross-windows-static-x86 cmake -S . -B $REL_BUILD_DIR -GNinja \
+  -DAPP_VERSION="$QSP_RELEASE_VER" \
+  -DCPACK_OUTPUT_FILE_PREFIX=$REL_BUILD_DIR/packages \
+  -DCPACK_GENERATOR="ZIP;NSIS" \
+  -DCMAKE_INSTALL_PREFIX=$REL_BUILD_DIR/out \
+  -DCMAKE_BUILD_TYPE=Release
+./cross_build/dockcross-windows-static-x86 cmake --build $REL_BUILD_DIR --parallel=$(nproc) --target install
+./cross_build/dockcross-windows-static-x86 cpack -B $REL_BUILD_DIR --config $REL_BUILD_DIR/CPackConfig.cmake
 
 # Move to dist
-mv ./cross_build/win32/out/bin/qspgui_win32.zip "./dist/qspgui-$QSP_RELEASE_VER-win32.zip"
+mv $REL_BUILD_DIR/packages/*.zip "./dist/qspgui-$QSP_RELEASE_VER-win32.zip"
+mv $REL_BUILD_DIR/packages/*.exe "./dist/qspgui-$QSP_RELEASE_VER-win32.exe"

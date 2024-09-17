@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
 option(APP_VERSION "Version of the player" "latest")
 
@@ -61,8 +61,6 @@ set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 add_subdirectory("${CMAKE_BINARY_DIR}/qsp-src"
 				 "${CMAKE_BINARY_DIR}/qsp-build"
 )
-
-install(TARGETS qsp DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT runtime)
 
 if (USE_INSTALLED_WX)
 	find_package(wxWidgets REQUIRED base core adv aui html)
@@ -202,21 +200,19 @@ target_link_libraries(qspgui PRIVATE qsp fmod wxbase wxcore wxadv wxaui wxhtml)
 # Installation
 
 install(TARGETS qspgui qsp)
+install(IMPORTED_RUNTIME_ARTIFACTS fmod)
 if (NOT USE_INSTALLED_WX)
 	install(TARGETS wxbase wxcore wxadv wxaui wxhtml)
 endif()
 
 if (WIN32)
-	install(FILES "${FMOD_DLL}" TYPE BIN)
-	set(RESOURCES_DIR "bin")
+	set(RESOURCES_DIR ${CMAKE_INSTALL_BINDIR})
 elseif (APPLE)
-	install(FILES "${FMOD_LIBRARY}" TYPE LIB)
-	set(RESOURCES_DIR "share/qspgui")
+	set(RESOURCES_DIR "${CMAKE_INSTALL_DATAROOTDIR}/qspgui")
 elseif (UNIX)
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "share/applications")
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "share/icons/hicolor/scalable/apps")
-	install(FILES "${FMOD_LIBRARY}" TYPE LIB)
-	set(RESOURCES_DIR "share/qspgui")
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications")
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps")
+	set(RESOURCES_DIR "${CMAKE_INSTALL_DATAROOTDIR}/qspgui")
 else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
@@ -225,8 +221,6 @@ install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/langs" DESTINATION "${RESOURC
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/sound" DESTINATION "${RESOURCES_DIR}")
 
 # Packaging
-
-set(CPACK_GENERATOR "TGZ;DEB;RPM")
 
 set(
 	CPACK_PACKAGE_NAME ${PROJECT_NAME}
@@ -241,11 +235,9 @@ set(CPACK_PACKAGE_VENDOR "QSP Foundation")
 set(CPACK_VERBATIM_VARIABLES True)
 
 set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
-SET(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_SOURCE_DIR}/dist")
 set(CPACK_STRIP_FILES True)
 
-set(
-	CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
+set(CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
 	OWNER_READ OWNER_WRITE OWNER_EXECUTE
 	GROUP_READ GROUP_EXECUTE
 	WORLD_READ WORLD_EXECUTE
@@ -257,8 +249,9 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Byte <${CPACK_PACKAGE_CONTACT}>")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 
-set(CPACK_PACKAGE_EXECUTABLES "qspgui" "QSP Classic")
+set(CPACK_PACKAGE_EXECUTABLES qspgui "QSP Classic")
 set(CPACK_CREATE_DESKTOP_LINKS qspgui)
+SET(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\qspgui.exe")
 
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_COMPONENTS_GROUPING ALL_COMPONENTS_IN_ONE)
@@ -282,5 +275,16 @@ set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
      DeleteRegKey HKCR '.gam'
      DeleteRegKey HKCR 'QSPGame'
      ")
+
+set(CPACK_SOURCE_IGNORE_FILES ${CMAKE_BINARY_DIR}/ ${PROJECT_BINARY_DIR}/)
+
+if (WIN32)
+	list(APPEND CPACK_SOURCE_IGNORE_FILES
+		include/
+		lib/
+		share/
+		wx-config
+		onig-config)
+endif()
 
 include(CPack)

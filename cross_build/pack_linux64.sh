@@ -4,6 +4,7 @@ set -e
 
 # Validation
 [ ! -d "./cross_build" ] && echo "Run this script from the project root directory" && exit
+[ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
 
 # Build
 mkdir -p ./cross_build/linux64
@@ -24,3 +25,8 @@ docker run --rm \
   $USER_IDS \
   $APP_ARGS \
   $IMAGE "/work/$SCRIPT"
+
+# Move to dist
+mv ./cross_build/linux64/packages/*.rpm "./dist/qspgui-$QSP_RELEASE_VER-linux64.rpm"
+mv ./cross_build/linux64/packages/*.deb "./dist/qspgui-$QSP_RELEASE_VER-linux64.deb"
+mv ./cross_build/linux64/packages/*.tar.gz "./dist/qspgui-$QSP_RELEASE_VER-linux64.tar.gz"

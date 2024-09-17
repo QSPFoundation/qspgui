@@ -4,6 +4,7 @@ set -e
 
 # Validation
 [ ! -d "./cross_build" ] && echo "Run this script from the project root directory" && exit
+[ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
 
 # Build
 mkdir -p ./cross_build/linux64_AppImage

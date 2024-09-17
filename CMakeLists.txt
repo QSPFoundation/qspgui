@@ -222,12 +222,10 @@ install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/sound" DESTINATION "${RESOURC
 
 # Packaging
 
-set(
-	CPACK_PACKAGE_NAME ${PROJECT_NAME}
+set(CPACK_PACKAGE_NAME "QSP Classic"
 	CACHE STRING "The resulting package name"
 )
-set(
-	CPACK_PACKAGE_DESCRIPTION_SUMMARY "QSP Classic player"
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "QSP Classic player"
 	CACHE STRING "Package description for the package metadata"
 )
 set(CPACK_PACKAGE_VENDOR "QSP Foundation")

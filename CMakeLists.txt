@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
-project(qspgui VERSION 5.9.0)
+
+option(APP_VERSION "Version of the player" "latest")
+
+project(qspgui VERSION ${APP_VERSION})
 
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
@@ -147,7 +150,7 @@ elseif (APPLE)
 	set_target_properties(fmod PROPERTIES
 			IMPORTED_NO_SONAME TRUE
 			IMPORTED_LOCATION ${FMOD_LIBRARY})
-elseif (LINUX)
+elseif (UNIX)
 	set(TARGET_ARCH "x86_64" CACHE STRING "Target architecture (x86;x86_64)")
 	if ("${TARGET_ARCH}" STREQUAL "x86")
 		set(FMOD_LIBRARY "${CMAKE_SOURCE_DIR}/misc/linux_${TARGET_ARCH}/libfmodex.so")
@@ -184,7 +187,7 @@ if (WIN32)
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT qspgui)
 elseif (APPLE)
 	add_executable(qspgui MACOSX_BUNDLE ${QSPGUI_SOURCES})
-elseif (LINUX)
+elseif (UNIX)
 	add_executable(qspgui ${QSPGUI_SOURCES})
 else()
 	message(FATAL_ERROR "Platform is not supported")
@@ -196,6 +199,8 @@ target_compile_options(qspgui PRIVATE ${PROJECT_COMPILER_FLAGS})
 target_link_options(qspgui PRIVATE ${PROJECT_LINKER_FLAGS})
 target_link_libraries(qspgui PRIVATE qsp fmod wxbase wxcore wxadv wxaui wxhtml)
 
+# Installation
+
 install(TARGETS qspgui qsp)
 if (NOT USE_INSTALLED_WX)
 	install(TARGETS wxbase wxcore wxadv wxaui wxhtml)
@@ -203,18 +208,79 @@ endif()
 
 if (WIN32)
 	install(FILES "${FMOD_DLL}" TYPE BIN)
-	set(RESOURCES_DIR "${CMAKE_INSTALL_PREFIX}/bin")
+	set(RESOURCES_DIR "bin")
 elseif (APPLE)
 	install(FILES "${FMOD_LIBRARY}" TYPE LIB)
-	set(RESOURCES_DIR "${CMAKE_INSTALL_PREFIX}/share/qspgui")
-elseif (LINUX)
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps")
+	set(RESOURCES_DIR "share/qspgui")
+elseif (UNIX)
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "share/applications")
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "share/icons/hicolor/scalable/apps")
 	install(FILES "${FMOD_LIBRARY}" TYPE LIB)
-	set(RESOURCES_DIR "${CMAKE_INSTALL_PREFIX}/share/qspgui")
+	set(RESOURCES_DIR "share/qspgui")
 else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
 
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/langs" DESTINATION "${RESOURCES_DIR}")
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/sound" DESTINATION "${RESOURCES_DIR}")
+
+# Packaging
+
+set(CPACK_GENERATOR "TGZ;DEB;RPM")
+
+set(
+	CPACK_PACKAGE_NAME ${PROJECT_NAME}
+	CACHE STRING "The resulting package name"
+)
+set(
+	CPACK_PACKAGE_DESCRIPTION_SUMMARY "QSP Classic player"
+	CACHE STRING "Package description for the package metadata"
+)
+set(CPACK_PACKAGE_VENDOR "QSP Foundation")
+
+set(CPACK_VERBATIM_VARIABLES True)
+
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
+SET(CPACK_OUTPUT_FILE_PREFIX "${CMAKE_SOURCE_DIR}/dist")
+set(CPACK_STRIP_FILES True)
+
+set(
+	CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
+	OWNER_READ OWNER_WRITE OWNER_EXECUTE
+	GROUP_READ GROUP_EXECUTE
+	WORLD_READ WORLD_EXECUTE
+)
+
+set(CPACK_PACKAGE_CONTACT "byte@qsp.org")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Byte <${CPACK_PACKAGE_CONTACT}>")
+
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+
+set(CPACK_PACKAGE_EXECUTABLES "qspgui" "QSP Classic")
+set(CPACK_CREATE_DESKTOP_LINKS qspgui)
+
+set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+set(CPACK_COMPONENTS_GROUPING ALL_COMPONENTS_IN_ONE)
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS True)
+
+set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+     WriteRegStr HKCR '.qsp' '' 'QSPGame'
+     WriteRegStr HKCR '.gam' '' 'QSPGame'
+     WriteRegStr HKCR 'QSPGame' '' 'QSP Game'
+     WriteRegStr HKCR 'QSPGame\\shell' '' 'open'
+     WriteRegStr HKCR 'QSPGame\\DefaultIcon' \\
+                      '' '$INSTDIR\\bin\\qspgui.exe,0'
+     WriteRegStr HKCR 'QSPGame\\shell\\open\\command' \\
+                      '' '$INSTDIR\\bin\\qspgui.exe \"%1\"'
+     System::Call \\
+       'Shell32::SHChangeNotify(i 0x8000000, i 0, i 0, i 0)'
+     ")
+
+set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+     DeleteRegKey HKCR '.qsp'
+     DeleteRegKey HKCR '.gam'
+     DeleteRegKey HKCR 'QSPGame'
+     ")
+
+include(CPack)

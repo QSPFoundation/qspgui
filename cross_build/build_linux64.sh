@@ -1,23 +1,17 @@
 #!/bin/sh
 
-[ ! -d "./cross_build" ] && ( echo "Run this script from the project root directory" && exit )
+set -e
 
-mkdir -p ./cross_build/linux64
+sudo apt-get update
+sudo apt-get install -y \
+  libgtk-3-dev \
+  rpm
 
-IMAGE=dockbuild/ubuntu1804-gcc7
-SCRIPT=cross_build/build_AppImage.sh
+REL_BUILD_DIR=cross_build/linux64
+ABS_BUILD_DIR=/work/$REL_BUILD_DIR
 
-SSH_DIR="$HOME/.ssh"
-HOST_VOLUMES="-v $SSH_DIR:/home/$(id -un)/.ssh"
-USER_IDS="-e BUILDER_UID=$( id -u ) -e BUILDER_GID=$( id -g ) -e BUILDER_USER=$( id -un ) -e BUILDER_GROUP=$( id -gn )"
-# Allow usage of fuse
-DOCKER_OPTS="--cap-add SYS_ADMIN --device /dev/fuse --security-opt apparmor:unconfined"
-tty -s && TTY_ARGS="-ti" || TTY_ARGS=""
+cmake -S /work -B $ABS_BUILD_DIR -DAPP_VERSION="$APP_VERSION" -DCMAKE_INSTALL_PREFIX=$REL_BUILD_DIR/out -DCMAKE_BUILD_TYPE=Release
+cmake --build $ABS_BUILD_DIR --parallel=$(nproc) --target install
 
-docker run --rm \
-  -v "$(pwd)":/work \
-  $TTY_ARGS \
-  $HOST_VOLUMES \
-  $DOCKER_OPTS \
-  $USER_IDS \
-  $IMAGE "/work/$SCRIPT"
+LIB_PATH=$(find $ABS_BUILD_DIR/out -type d -printf ":%p")
+LD_LIBRARY_PATH=$LIB_PATH cpack -B $ABS_BUILD_DIR --config $ABS_BUILD_DIR/CPackConfig.cmake

@@ -7,17 +7,14 @@ sudo apt-get install -y \
   libgtk-3-dev \
   rpm
 
-REL_BUILD_DIR=cross_build/linux64
-ABS_BUILD_DIR=/work/$REL_BUILD_DIR
+REL_BUILD_DIR=./cross_build/linux64
 
-cmake -S /work -B $ABS_BUILD_DIR \
+cmake -S . -B $REL_BUILD_DIR \
   -DAPP_VERSION="$APP_VERSION" \
-  -DCPACK_OUTPUT_FILE_PREFIX=$ABS_BUILD_DIR/packages \
+  -DCPACK_OUTPUT_FILE_PREFIX=$REL_BUILD_DIR/packages \
   -DCPACK_GENERATOR="TGZ;DEB;RPM" \
-  -DCMAKE_INSTALL_PREFIX=$REL_BUILD_DIR/out \
+  -DCMAKE_INSTALL_PREFIX=/usr/local \
   -DCMAKE_BUILD_TYPE=Release
 
-cmake --build $ABS_BUILD_DIR --parallel=$(nproc) --target install
-
-LIB_PATH=$(find $ABS_BUILD_DIR/out -type d -printf ":%p")
-LD_LIBRARY_PATH=$LIB_PATH cpack -B $ABS_BUILD_DIR --config $ABS_BUILD_DIR/CPackConfig.cmake
+cmake --build $REL_BUILD_DIR --parallel $(nproc)
+cpack -B $REL_BUILD_DIR --config $REL_BUILD_DIR/CPackConfig.cmake

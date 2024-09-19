@@ -15,9 +15,10 @@ REL_BUILD_DIR=./cross_build/win32
   -DAPP_VERSION="$QSP_RELEASE_VER" \
   -DCPACK_OUTPUT_FILE_PREFIX=$REL_BUILD_DIR/packages \
   -DCPACK_GENERATOR="ZIP;NSIS" \
-  -DCMAKE_INSTALL_PREFIX=$REL_BUILD_DIR/out \
+  -DCMAKE_INSTALL_PREFIX=/usr/local \
   -DCMAKE_BUILD_TYPE=Release
-./cross_build/dockcross-windows-static-x86 cmake --build $REL_BUILD_DIR --parallel=$(nproc) --target install
+
+./cross_build/dockcross-windows-static-x86 cmake --build $REL_BUILD_DIR --parallel $(nproc)
 ./cross_build/dockcross-windows-static-x86 cpack -B $REL_BUILD_DIR --config $REL_BUILD_DIR/CPackConfig.cmake
 
 # Move to dist

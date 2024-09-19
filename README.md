@@ -5,18 +5,15 @@ Please check [Releases](https://github.com/QSPFoundation/qspgui/releases) sectio
 ## Linux build
 
 ```bash
-mkdir build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build . -j
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel $(nproc)
 ```
 
 ## Windows build
 
 ```bash
-mkdir build
-cd build
-cmake -G "Visual Studio 15 2017" -A Win32 -DCMAKE_INSTALL_PREFIX=out ..
-cmake --build . --target install --config Release
+cmake -S . -B build -G "Visual Studio 17 2022" -A Win32 -DCMAKE_INSTALL_PREFIX=out
+cmake --build build --target install --config Release
 ```
 
 ## Support us

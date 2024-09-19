@@ -6,13 +6,15 @@ set -e
 [ ! -d "./cross_build" ] && echo "Run this script from the project root directory" && exit
 [ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
 
+CMAKE_VER=$(echo "$QSP_RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+
 # Build
 mkdir -p ./cross_build/win32
 
 REL_BUILD_DIR=./cross_build/win32
 
 ./cross_build/dockcross-windows-static-x86 cmake -S . -B $REL_BUILD_DIR -GNinja \
-  -DAPP_VERSION="$QSP_RELEASE_VER" \
+  -DAPP_VERSION="$CMAKE_VER" \
   -DCPACK_OUTPUT_FILE_PREFIX=$REL_BUILD_DIR/packages \
   -DCPACK_GENERATOR="ZIP;NSIS" \
   -DCMAKE_INSTALL_PREFIX=/usr/local \

@@ -6,6 +6,8 @@ set -e
 [ ! -d "./cross_build" ] && echo "Run this script from the project root directory" && exit
 [ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
 
+CMAKE_VER=$(echo "$QSP_RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+
 # Build
 mkdir -p ./cross_build/linux64
 
@@ -15,7 +17,7 @@ SCRIPT=cross_build/build_linux64.sh
 SSH_DIR="$HOME/.ssh"
 HOST_VOLUMES="-v $SSH_DIR:/home/$(id -un)/.ssh"
 USER_IDS="-e BUILDER_UID=$( id -u ) -e BUILDER_GID=$( id -g ) -e BUILDER_USER=$( id -un ) -e BUILDER_GROUP=$( id -gn )"
-APP_ARGS="-e APP_VERSION=$QSP_RELEASE_VER"
+APP_ARGS="-e APP_VERSION=$CMAKE_VER"
 tty -s && TTY_ARGS="-ti" || TTY_ARGS=""
 
 docker run --rm \

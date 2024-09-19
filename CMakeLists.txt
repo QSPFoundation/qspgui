@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
-set(APP_VERSION CACHE STRING "latest")
+set(APP_VERSION CACHE STRING "0.0.0")
 
 project(qspgui VERSION ${APP_VERSION} HOMEPAGE_URL "https://qsp.org")
 

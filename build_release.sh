@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export QSP_RELEASE_VER="${1:-latest}"
+export QSP_RELEASE_VER="${1:-0.0.0}"
 
 mkdir -p dist
 

@@ -199,10 +199,10 @@ target_link_libraries(qspgui PRIVATE qsp fmod wxbase wxcore wxadv wxaui wxhtml)
 
 # Installation
 
-install(TARGETS qspgui qsp)
-install(IMPORTED_RUNTIME_ARTIFACTS fmod)
+install(TARGETS qspgui qsp COMPONENT Main)
+install(IMPORTED_RUNTIME_ARTIFACTS fmod COMPONENT Main)
 if (NOT USE_INSTALLED_WX)
-	install(TARGETS wxbase wxcore wxadv wxaui wxhtml)
+	install(TARGETS wxbase wxcore wxadv wxaui wxhtml COMPONENT Libs)
 endif()
 
 if (WIN32)
@@ -210,15 +210,15 @@ if (WIN32)
 elseif (APPLE)
 	set(RESOURCES_DIR "${CMAKE_INSTALL_DATAROOTDIR}/qspgui")
 elseif (UNIX)
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications")
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps")
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" COMPONENT Main)
+	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" COMPONENT Main)
 	set(RESOURCES_DIR "${CMAKE_INSTALL_DATAROOTDIR}/qspgui")
 else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
 
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/langs" DESTINATION "${RESOURCES_DIR}")
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/sound" DESTINATION "${RESOURCES_DIR}")
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/langs" DESTINATION "${RESOURCES_DIR}" COMPONENT Main)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/sound" DESTINATION "${RESOURCES_DIR}" COMPONENT Main)
 
 # Packaging
 
@@ -241,14 +241,12 @@ set(CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
 	GROUP_READ GROUP_EXECUTE
 	WORLD_READ WORLD_EXECUTE
 )
-set(CPACK_COMPONENTS_GROUPING ALL_COMPONENTS_IN_ONE)
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS True)
 
 set(CPACK_PACKAGE_EXECUTABLES qspgui "QSP Classic")
 set(CPACK_CREATE_DESKTOP_LINKS qspgui)
 set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\qspgui.exe")
-#set(CPACK_NSIS_EXECUTABLES_DIRECTORY "")
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL True)
 set(CPACK_NSIS_MODIFY_PATH True)
 set(CPACK_NSIS_MANIFEST_DPI_AWARE True)
@@ -273,8 +271,14 @@ set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
 
 set(CPACK_SOURCE_IGNORE_FILES ${CMAKE_BINARY_DIR}/ ${PROJECT_BINARY_DIR}/)
 
+set(CPACK_COMPONENTS_GROUPING ALL_COMPONENTS_IN_ONE)
 if (WIN32)
-	set(CPACK_IGNORE_FILES "include/" "lib/" "share/" "wx-config" "onig-config")
+	set(CPACK_ARCHIVE_COMPONENT_INSTALL True)
+	set(CPACK_COMPONENTS_ALL Main)
 endif()
 
 include(CPack)
+
+if (WIN32)
+	cpack_add_component(Main DISPLAY_NAME "QSP Player" REQUIRED)
+endif()

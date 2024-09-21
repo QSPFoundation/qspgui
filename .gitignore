@@ -1,5 +1,6 @@
 build/*
 dist/*
+cross_build/*/
 
 # CMake files
 CMakeCache.txt

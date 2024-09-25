@@ -211,7 +211,7 @@ wxString QSPTools::GetResourcePath(const wxString &path, const wxString &file)
 
 wxString QSPTools::GetConfigPath(const wxString &path, const wxString &file)
 {
-    wxFileName configPath(wxStandardPaths::Get().GetUserConfigDir(), file);
+    wxFileName configPath(wxStandardPaths::Get().GetUserDir(wxStandardPathsBase::Dir_Config), file);
 
     if (!path.IsEmpty())
         configPath.Assign(configPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + path, file);

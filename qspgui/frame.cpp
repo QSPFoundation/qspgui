@@ -469,16 +469,16 @@ bool QSPFrame::IsValidFullPath(const wxString &path) const
 
 void QSPFrame::ShowError()
 {
-    bool oldToProcessEvents;
-    wxString wxMessage;
     if (m_toQuit) return;
     QSPErrorInfo errorInfo = QSPGetLastErrorData();
+    if (!errorInfo.ErrorNum) return; // error is undefined
     wxString locName(errorInfo.LocName.Str, errorInfo.LocName.End);
     wxString errorDesc(errorInfo.ErrorDesc.Str, errorInfo.ErrorDesc.End);
     wxString line(errorInfo.IntLine.Str, errorInfo.IntLine.End);
     if (line.IsEmpty())
         line = _("Unknown");
 
+    wxString wxMessage;
     if (!locName.IsEmpty())
         wxMessage = wxString::Format(
             _("Location: %s\nArea: %s\nLine %d: %s\nCode: %d\nDesc: %s"),
@@ -507,7 +507,7 @@ void QSPFrame::ShowError()
                      false,
                      this
     );
-    oldToProcessEvents = m_toProcessEvents;
+    bool oldToProcessEvents = m_toProcessEvents;
     m_toProcessEvents = false;
     dialog.ShowModal();
     m_toProcessEvents = oldToProcessEvents;

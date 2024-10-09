@@ -23,17 +23,57 @@
     #include "frame.h"
     #include "msgdlg.h"
     #include "inputdlg.h"
-    #include "fmod.h"
+    #include "sound/sound_engine.h"
 
     typedef struct QSPSound_
     {
-        FMOD_CHANNEL *Channel;
-        FMOD_SOUND *Sound;
+        ma_sound_file Sound;
         int Volume;
 
-        void Free() const
+        QSPSound_()
         {
-            FMOD_Sound_Release(Sound);
+            Sound = 0;
+            Volume = 0;
+        }
+
+        bool Play(const wxString& file, int volume, float volumeCoeff)
+        {
+            #ifdef _UNICODE
+                Sound = sound_play_file_w(file.c_str());
+            #else
+                Sound = sound_play_file(file.c_str());
+            #endif
+            if (Sound)
+            {
+                SetVolume(volume, volumeCoeff);
+                return true;
+            }
+            return false;
+        }
+
+        void SetVolume(int volume, float volumeCoeff)
+        {
+            if (Sound)
+            {
+                Volume = volume;
+                sound_set_volume(Sound, volumeCoeff * volume / 100.0f);
+            }
+        }
+
+        bool IsPlaying() const
+        {
+            if (Sound)
+                return (bool)sound_is_playing(Sound);
+            return false;
+        }
+
+        void Close()
+        {
+            if (Sound)
+            {
+                sound_close_file(Sound);
+                Sound = 0;
+            }
         }
     } QSPSound;
 
@@ -104,7 +144,6 @@
         // Fields
         static QSPFrame *m_frame;
         static bool m_isHtml;
-        static FMOD_SYSTEM *m_sys;
         static QSPSounds m_sounds;
         static float m_volumeCoeff;
         static QSPVersionInfoValues m_versionInfo;

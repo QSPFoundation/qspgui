@@ -29,7 +29,7 @@
     #define QSP_CONFIG wxT("qspgui.cfg")
     #define QSP_TRANSLATIONS wxT("langs")
     #define QSP_SOUNDPLUGINS wxT("sound")
-    #define QSP_MIDIDLS wxT("midi.dls")
+    #define QSP_MIDISOUNDFONT wxT("midi.sf2")
 
     class QSPTools
     {

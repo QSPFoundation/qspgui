@@ -131,37 +131,6 @@ else()
 	)
 endif()
 
-add_library(fmod SHARED IMPORTED)
-if (WIN32)
-	set(FMOD_DLL "${CMAKE_SOURCE_DIR}/misc/win32/fmodex.dll")
-	set(FMOD_LIBRARY "${CMAKE_SOURCE_DIR}/misc/win32/fmodex_vc.lib")
-	set_target_properties(fmod PROPERTIES
-			IMPORTED_LOCATION ${FMOD_DLL}
-			IMPORTED_IMPLIB ${FMOD_LIBRARY})
-elseif (APPLE)
-	set(TARGET_ARCH "x86_64" CACHE STRING "Target architecture (arm64;x86_64)")
-	if ("${TARGET_ARCH}" STREQUAL "arm64")
-		message(FATAL_ERROR "ARM64 is not supported yet")
-	else()
-		set(FMOD_LIBRARY "${CMAKE_SOURCE_DIR}/misc/macos/libfmodex.dylib")
-	endif()
-	set_target_properties(fmod PROPERTIES
-			IMPORTED_NO_SONAME TRUE
-			IMPORTED_LOCATION ${FMOD_LIBRARY})
-elseif (UNIX)
-	set(TARGET_ARCH "x86_64" CACHE STRING "Target architecture (x86;x86_64)")
-	if ("${TARGET_ARCH}" STREQUAL "x86")
-		set(FMOD_LIBRARY "${CMAKE_SOURCE_DIR}/misc/linux_${TARGET_ARCH}/libfmodex.so")
-	else()
-		set(FMOD_LIBRARY "${CMAKE_SOURCE_DIR}/misc/linux_${TARGET_ARCH}/libfmodex64.so")
-	endif()
-	set_target_properties(fmod PROPERTIES
-		IMPORTED_NO_SONAME TRUE
-		IMPORTED_LOCATION ${FMOD_LIBRARY})
-else()
-	message(FATAL_ERROR "Platform is not supported")
-endif()
-
 set(QSPGUI_SOURCES
 	qspgui/animwin.cpp
 	qspgui/app.cpp
@@ -176,6 +145,7 @@ set(QSPGUI_SOURCES
 	qspgui/msgdlg.cpp
 	qspgui/textbox.cpp
 	qspgui/transhelper.cpp
+	qspgui/sound/sound_engine.c
 )
 if (WIN32)
 	list(APPEND QSPGUI_SOURCES qspgui/rsc/res.rc)
@@ -195,12 +165,11 @@ target_compile_definitions(qspgui PRIVATE _UNICODE)
 target_include_directories(qspgui PRIVATE qsp/bindings qsp/bindings/default)
 target_compile_options(qspgui PRIVATE ${PROJECT_COMPILER_FLAGS})
 target_link_options(qspgui PRIVATE ${PROJECT_LINKER_FLAGS})
-target_link_libraries(qspgui PRIVATE qsp fmod wxbase wxcore wxadv wxaui wxhtml)
+target_link_libraries(qspgui PRIVATE qsp wxbase wxcore wxadv wxaui wxhtml)
 
 # Installation
 
 install(TARGETS qspgui qsp COMPONENT Main)
-install(IMPORTED_RUNTIME_ARTIFACTS fmod COMPONENT Main)
 if (NOT USE_INSTALLED_WX)
 	install(TARGETS wxbase wxcore wxadv wxaui wxhtml COMPONENT Libs)
 endif()

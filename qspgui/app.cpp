@@ -25,7 +25,9 @@ bool QSPApp::OnInit()
     if (!wxApp::OnInit())
         return false;
 
-    wxLog::EnableLogging(false);
+    wxLog::EnableLogging(true);
+    delete wxLog::SetActiveTarget(new wxLogStderr());
+
     wxInitAllImageHandlers();
     QSPInit();
     InitUI();

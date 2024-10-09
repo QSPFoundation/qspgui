@@ -227,7 +227,7 @@ wxString QSPTools::GetPlatform()
     if (osId & wxOS_WINDOWS)
         string = wxT("Windows");
     else if (osId & wxOS_MAC)
-        string = wxT("Macintosh");
+        string = wxT("MacOS");
     else if (osId & wxOS_UNIX_LINUX)
         string = wxT("Linux");
     else if (osId & wxOS_UNIX)

@@ -20,7 +20,6 @@
 
 QSPFrame *QSPCallbacks::m_frame;
 bool QSPCallbacks::m_isHtml;
-FMOD_SYSTEM *QSPCallbacks::m_sys;
 QSPSounds QSPCallbacks::m_sounds;
 float QSPCallbacks::m_volumeCoeff;
 QSPVersionInfoValues QSPCallbacks::m_versionInfo;
@@ -30,17 +29,19 @@ void QSPCallbacks::Init(QSPFrame *frame)
     m_frame = frame;
     m_volumeCoeff = 1.0;
 
-    FMOD_System_Create(&m_sys);
-    wxString soundPath(QSPTools::GetResourcePath(QSP_SOUNDPLUGINS));
-    FMOD_System_SetPluginPath(m_sys, wxConvFile.cWX2MB(soundPath.c_str()));
-    #ifdef __WXMSW__
-        FMOD_System_SetOutput(m_sys, FMOD_OUTPUTTYPE_DSOUND);
-    #elif __WXOSX__
-        FMOD_System_SetOutput(m_sys, FMOD_OUTPUTTYPE_COREAUDIO);
-    #else
-        FMOD_System_SetOutput(m_sys, FMOD_OUTPUTTYPE_ALSA);
-    #endif
-    FMOD_System_Init(m_sys, 32, FMOD_INIT_NORMAL, 0);
+    if (sound_init_engine() < 0)
+        wxLogError("Can't initialize sound engine");
+    else
+    {
+        wxString soundFontPath(QSPTools::GetResourcePath(QSP_SOUNDPLUGINS, QSP_MIDISOUNDFONT));
+#ifdef _UNICODE
+        int soundFontInitResult = soundfont_init_w(soundFontPath.c_str());
+#else
+        int soundFontInitResult = soundfont_init(soundFontPath.c_str());
+#endif
+        if (soundFontInitResult < 0)
+            wxLogError("Can't load soundfont to play MIDI files");
+    }
 
     QSPSetCallback(QSP_CALL_SETTIMER, (QSP_CALLBACK)&SetTimer);
     QSPSetCallback(QSP_CALL_REFRESHINT, (QSP_CALLBACK)&RefreshInt);
@@ -68,8 +69,7 @@ void QSPCallbacks::Init(QSPFrame *frame)
 void QSPCallbacks::DeInit()
 {
     CloseFile(qspStringFromPair(0, 0));
-    FMOD_System_Close(m_sys);
-    FMOD_System_Release(m_sys);
+    sound_free_engine();
 }
 
 int QSPCallbacks::SetTimer(int msecs)
@@ -164,12 +164,11 @@ int QSPCallbacks::SetInputStrText(QSPString text)
 
 int QSPCallbacks::IsPlay(QSPString file)
 {
-    FMOD_BOOL playing = FALSE;
     wxString fileName(file.Str, file.End);
     QSPSounds::iterator elem = m_sounds.find(fileName.Upper());
-    if (elem != m_sounds.end())
-        FMOD_Channel_IsPlaying(((QSPSound *)(&elem->second))->Channel, &playing);
-    return (playing == TRUE);
+    if (elem != m_sounds.end() && elem->second.IsPlaying())
+        return QSP_TRUE;
+    return QSP_FALSE;
 }
 
 int QSPCallbacks::CloseFile(QSPString file)
@@ -180,14 +179,14 @@ int QSPCallbacks::CloseFile(QSPString file)
         QSPSounds::iterator elem = m_sounds.find(fileName.Upper());
         if (elem != m_sounds.end())
         {
-            ((QSPSound *)(&elem->second))->Free();
+            elem->second.Close();
             m_sounds.erase(elem);
         }
     }
     else
     {
         for (QSPSounds::iterator i = m_sounds.begin(); i != m_sounds.end(); ++i)
-            ((QSPSound *)(&i->second))->Free();
+            i->second.Close();
         m_sounds.clear();
     }
     return 0;
@@ -195,33 +194,15 @@ int QSPCallbacks::CloseFile(QSPString file)
 
 int QSPCallbacks::PlayFile(QSPString file, int volume)
 {
-    FMOD_SOUND *newSound;
-    FMOD_CHANNEL *newChannel;
     QSPSound snd;
     if (SetVolume(file, volume)) return 0;
     CloseFile(file);
     wxString fileName(file.Str, file.End);
     wxString filePath(m_frame->ComposeGamePath(fileName));
-#if defined(__WXMSW__) || defined(__WXOSX__)
-    if (!FMOD_System_CreateSound(m_sys, wxConvFile.cWX2MB(filePath.c_str()), FMOD_SOFTWARE | FMOD_CREATESTREAM, 0, &newSound))
-#else
-    FMOD_CREATESOUNDEXINFO exInfo;
-    memset(&exInfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
-    exInfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-    wxString dlsPath(QSPTools::GetResourcePath(QSP_SOUNDPLUGINS, QSP_MIDIDLS));
-    wxCharBuffer dlsCharPath(wxConvFile.cWX2MB(dlsPath.c_str()));
-    exInfo.dlsname = dlsCharPath;
-    if (!FMOD_System_CreateSound(m_sys, wxConvFile.cWX2MB(filePath.c_str()), FMOD_SOFTWARE | FMOD_CREATESTREAM, &exInfo, &newSound))
-#endif
-    {
-        UpdateSounds();
-        FMOD_System_PlaySound(m_sys, FMOD_CHANNEL_FREE, newSound, FALSE, &newChannel);
-        snd.Channel = newChannel;
-        snd.Sound = newSound;
-        snd.Volume = volume;
-        m_sounds.insert(QSPSounds::value_type(fileName.Upper(), snd));
-        SetVolume(file, volume);
-    }
+    if (!snd.Play(filePath, volume, m_volumeCoeff))
+        return 0;
+    UpdateSounds();
+    m_sounds.insert(QSPSounds::value_type(fileName.Upper(), snd));
     return 0;
 }
 
@@ -475,17 +456,15 @@ bool QSPCallbacks::SetVolume(QSPString file, int volume)
     QSPSounds::iterator elem = m_sounds.find(fileName.Upper());
     if (elem != m_sounds.end())
     {
-        QSPSound *snd = (QSPSound *)&elem->second;
-        snd->Volume = volume;
-        FMOD_Channel_SetVolume(snd->Channel, (float)(m_volumeCoeff * volume) / 100);
+        QSPSound *snd = &elem->second;
+        snd->SetVolume(volume, m_volumeCoeff);
+        return true;
     }
-    return true;
+    return false;
 }
 
 void QSPCallbacks::SetOverallVolume(float coeff)
 {
-    QSPSound *snd;
-    FMOD_BOOL playing = FALSE;
     if (coeff < 0.0)
         coeff = 0.0;
     else if (coeff > 1.0)
@@ -493,27 +472,24 @@ void QSPCallbacks::SetOverallVolume(float coeff)
     m_volumeCoeff = coeff;
     for (QSPSounds::iterator i = m_sounds.begin(); i != m_sounds.end(); ++i)
     {
-        snd = (QSPSound *)&i->second;
-        FMOD_Channel_IsPlaying(snd->Channel, &playing);
-        if (playing)
-            FMOD_Channel_SetVolume(snd->Channel, (float)(m_volumeCoeff * snd->Volume) / 100);
+        QSPSound *snd = &i->second;
+        if (snd->IsPlaying())
+            snd->SetVolume(snd->Volume, m_volumeCoeff);
     }
 }
 
 void QSPCallbacks::UpdateSounds()
 {
     QSPSound *snd;
-    FMOD_BOOL playing = FALSE;
     QSPSounds::iterator i = m_sounds.begin();
     while (i != m_sounds.end())
     {
-        snd = (QSPSound *)&i->second;
-        FMOD_Channel_IsPlaying(snd->Channel, &playing);
-        if (playing)
+        snd = &i->second;
+        if (snd->IsPlaying())
             ++i;
         else
         {
-            snd->Free();
+            snd->Close();
             m_sounds.erase(i++);
         }
     }

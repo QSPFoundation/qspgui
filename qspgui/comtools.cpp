@@ -184,7 +184,7 @@ wxString QSPTools::GetResourcePath(const wxString &path, const wxString &file)
 {
     wxPathList resourcePathList;
     resourcePathList.AddEnvList(wxT("XDG_DATA_DIRS"));
-    resourcePathList.Add(wxStandardPaths::Get().GetDataDir());
+    resourcePathList.Add(wxStandardPaths::Get().GetResourcesDir());
 
     wxArrayString prefixes;
     prefixes.Add(QSP_APPNAME);

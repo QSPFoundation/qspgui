@@ -156,7 +156,14 @@ if (WIN32)
 elseif (APPLE)
 	add_executable(qspgui MACOSX_BUNDLE ${QSPGUI_SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/icon.icns")
 	set_target_properties(qspgui PROPERTIES
-		MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/Info.plist"
+		MACOSX_BUNDLE_BUNDLE_NAME "QSP Classic"
+		MACOSX_BUNDLE_BUNDLE_VERSION "${CMAKE_PROJECT_VERSION}"
+		MACOSX_BUNDLE_COPYRIGHT "(c) QSP Foundation"
+		MACOSX_BUNDLE_GUI_IDENTIFIER "org.qsp.qspgui"
+		MACOSX_BUNDLE_ICON_FILE "icon.icns"
+		MACOSX_BUNDLE_INFO_STRING "QSP Classic"
+		MACOSX_BUNDLE_LONG_VERSION_STRING "${CMAKE_PROJECT_VERSION}"
+		MACOSX_BUNDLE_SHORT_VERSION_STRING "${CMAKE_PROJECT_VERSION}"
 		RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/icon.icns")
 elseif (UNIX)
 	add_executable(qspgui ${QSPGUI_SOURCES})
@@ -217,8 +224,10 @@ endif()
 
 if (APPLE)
 	set(DEP_DIRS "${CMAKE_INSTALL_PREFIX}/${RLIBDIR}")
-	install(CODE "include(BundleUtilities)
-		fixup_bundle(\"${CMAKE_INSTALL_PREFIX}/${BUNDLE_NAME}\" \"\" \"${DEP_DIRS}\")")
+	install(CODE
+			"include(BundleUtilities)
+			fixup_bundle(\"${CMAKE_INSTALL_PREFIX}/${BUNDLE_NAME}\" \"\" \"${DEP_DIRS}\")"
+			COMPONENT Main)
 elseif (UNIX)
 	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" COMPONENT Main)
 	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" COMPONENT Main)
@@ -250,10 +259,6 @@ set(CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
 )
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-
-set(CPACK_BUNDLE_NAME "QSP Classic")
-set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/Info.plist")
-set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/icon.icns")
 
 set(CPACK_PACKAGE_EXECUTABLES qspgui "QSP Classic")
 set(CPACK_CREATE_DESKTOP_LINKS qspgui)

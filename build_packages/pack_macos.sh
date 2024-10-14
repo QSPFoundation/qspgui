@@ -14,7 +14,7 @@ mkdir -p ./build_packages/macos
 REL_BUILD_DIR=./build_packages/macos
 
 cmake -S . -B $REL_BUILD_DIR \
-  -DAPP_VERSION="$APP_VERSION" \
+  -DAPP_VERSION="$CMAKE_VER" \
   -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
   -DCPACK_OUTPUT_FILE_PREFIX=$REL_BUILD_DIR/packages \
   -DCPACK_GENERATOR="DragNDrop" \

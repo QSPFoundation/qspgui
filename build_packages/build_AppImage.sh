@@ -8,7 +8,7 @@ sudo apt-get install -y \
   wget \
   fuse
 
-REL_BUILD_DIR=./cross_build/linux64_AppImage
+REL_BUILD_DIR=./build_packages/linux64_AppImage
 
 cmake -S . -B $REL_BUILD_DIR \
   -DAPP_VERSION="$APP_VERSION" \

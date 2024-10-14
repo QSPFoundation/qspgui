@@ -7,7 +7,7 @@ sudo apt-get install -y \
   libgtk-3-dev \
   rpm
 
-REL_BUILD_DIR=./cross_build/linux64
+REL_BUILD_DIR=./build_packages/linux64
 
 cmake -S . -B $REL_BUILD_DIR \
   -DAPP_VERSION="$APP_VERSION" \

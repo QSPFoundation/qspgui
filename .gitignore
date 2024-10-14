@@ -1,6 +1,6 @@
 build/*
 dist/*
-cross_build/*/
+build_packages/*
 
 # CMake files
 CMakeCache.txt
@@ -44,8 +44,8 @@ _deps
 *.AppImage
 
 # Release files
-/cross_build/linux64/
-/cross_build/win32/
+/build_packages/linux64/
+/build_packages/win32/
 
 # Visual Studio files
 /.vs/

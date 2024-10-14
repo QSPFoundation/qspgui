@@ -10,6 +10,9 @@ include(GNUInstallDirs)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
+set(CMAKE_CXX_STANDARD 11)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
@@ -40,9 +43,6 @@ elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_C_COMPILER_ID}" ST
 else()
 	message(FATAL_ERROR "Compiler is not supported")
 endif()
-
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
 # Download and unpack qsp at configure time
 configure_file(CMakeLists-qsp.txt.in "${CMAKE_BINARY_DIR}/qsp-download/CMakeLists.txt")
@@ -79,7 +79,7 @@ else()
 	execute_process(COMMAND git checkout --recurse-submodules -- .
 			WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/wxWidgets-src"
 	)
-	execute_process(COMMAND git apply --ignore-whitespace --reject "${CMAKE_SOURCE_DIR}/build_wx/wxPatch.diff"
+	execute_process(COMMAND git apply --ignore-whitespace --reject "${CMAKE_CURRENT_SOURCE_DIR}/build_wx/wxPatch.diff"
 			WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/wxWidgets-src"
 	)
 
@@ -149,12 +149,15 @@ set(QSPGUI_SOURCES
 )
 if (WIN32)
 	list(APPEND QSPGUI_SOURCES qspgui/rsc/res.rc)
-	configure_file("${CMAKE_SOURCE_DIR}/misc/common/icons/logo.ico" "${CMAKE_BINARY_DIR}/misc/icons/logo.ico" COPYONLY)
+	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/misc/common/icons/logo.ico" "${CMAKE_BINARY_DIR}/misc/icons/logo.ico" COPYONLY)
 	add_executable(qspgui WIN32 ${QSPGUI_SOURCES})
 	target_compile_definitions(qspgui PRIVATE _CRT_SECURE_NO_WARNINGS)
 	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT qspgui)
 elseif (APPLE)
-	add_executable(qspgui MACOSX_BUNDLE ${QSPGUI_SOURCES})
+	add_executable(qspgui MACOSX_BUNDLE ${QSPGUI_SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/icon.icns")
+	set_target_properties(qspgui PROPERTIES
+		MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/Info.plist"
+		RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/icon.icns")
 elseif (UNIX)
 	add_executable(qspgui ${QSPGUI_SOURCES})
 else()
@@ -169,25 +172,59 @@ target_link_libraries(qspgui PRIVATE qsp wxbase wxcore wxadv wxaui wxhtml)
 
 # Installation
 
-install(TARGETS qspgui qsp COMPONENT Main)
-if (NOT USE_INSTALLED_WX)
-	install(TARGETS wxbase wxcore wxadv wxaui wxhtml COMPONENT Libs)
-endif()
-
 if (WIN32)
-	set(RESOURCES_DIR ${CMAKE_INSTALL_BINDIR})
+	set(BUNDLE_NAME qspgui.exe)
+	set(BINDIR ${CMAKE_INSTALL_BINDIR})
+	set(LIBDIR ${CMAKE_INSTALL_LIBDIR})
+	set(RLIBDIR ${CMAKE_INSTALL_BINDIR})
+	set(HEADERDIR ${CMAKE_INSTALL_INCLUDEDIR})
+	set(DATADIR ${CMAKE_INSTALL_BINDIR})
 elseif (APPLE)
-	set(RESOURCES_DIR "${CMAKE_INSTALL_DATAROOTDIR}/qspgui")
+	set(BUNDLE_NAME qspgui.app)
+	set(BINDIR ${BUNDLE_NAME}/Contents/MacOS)
+	set(LIBDIR ${BUNDLE_NAME}/Contents/Frameworks)
+	set(RLIBDIR ${BUNDLE_NAME}/Contents/Frameworks)
+	set(HEADERDIR ${BUNDLE_NAME}/Contents/Frameworks)
+	set(DATADIR ${BUNDLE_NAME}/Contents/Resources)
 elseif (UNIX)
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" COMPONENT Main)
-	install(FILES "${CMAKE_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" COMPONENT Main)
-	set(RESOURCES_DIR "${CMAKE_INSTALL_DATAROOTDIR}/qspgui")
+	set(BUNDLE_NAME qspgui)
+	set(BINDIR ${CMAKE_INSTALL_BINDIR})
+	set(LIBDIR ${CMAKE_INSTALL_LIBDIR})
+	set(RLIBDIR ${CMAKE_INSTALL_LIBDIR})
+	set(HEADERDIR ${CMAKE_INSTALL_INCLUDEDIR})
+	set(DATADIR ${CMAKE_INSTALL_DATADIR}/qspgui)
 else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
 
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/langs" DESTINATION "${RESOURCES_DIR}" COMPONENT Main)
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/misc/common/sound" DESTINATION "${RESOURCES_DIR}" COMPONENT Main)
+install(TARGETS qspgui qsp
+		COMPONENT Main
+		RUNTIME DESTINATION ${BINDIR}
+		LIBRARY DESTINATION ${RLIBDIR}
+		ARCHIVE DESTINATION ${LIBDIR}
+		PRIVATE_HEADER DESTINATION ${HEADERDIR}
+		PUBLIC_HEADER DESTINATION ${HEADERDIR}
+		BUNDLE DESTINATION .)
+if (NOT USE_INSTALLED_WX)
+	install(TARGETS wxbase wxcore wxadv wxaui wxhtml
+			COMPONENT Libs
+			RUNTIME DESTINATION ${BINDIR}
+			LIBRARY DESTINATION ${RLIBDIR}
+			ARCHIVE DESTINATION ${LIBDIR}
+			PRIVATE_HEADER DESTINATION ${HEADERDIR}
+			PUBLIC_HEADER DESTINATION ${HEADERDIR})
+endif()
+
+if (APPLE)
+	set(DEP_DIRS "${CMAKE_INSTALL_PREFIX}/${RLIBDIR}")
+	install(CODE "include(BundleUtilities) fixup_bundle(\"${CMAKE_INSTALL_PREFIX}/${BUNDLE_NAME}\" \"\" \"${DEP_DIRS}\")")
+elseif (UNIX)
+	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/misc/linux/qspgui.desktop" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications" COMPONENT Main)
+	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/misc/common/icons/qsp.svg" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" COMPONENT Main)
+endif()
+
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/misc/common/langs" DESTINATION "${DATADIR}" COMPONENT Main)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/misc/common/sound" DESTINATION "${DATADIR}" COMPONENT Main)
 
 # Packaging
 
@@ -213,9 +250,13 @@ set(CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
+set(CPACK_BUNDLE_NAME "QSP Classic")
+set(CPACK_BUNDLE_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/Info.plist")
+set(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/misc/macos/icon.icns")
+
 set(CPACK_PACKAGE_EXECUTABLES qspgui "QSP Classic")
 set(CPACK_CREATE_DESKTOP_LINKS qspgui)
-set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\qspgui.exe")
+set(CPACK_NSIS_INSTALLED_ICON_NAME "${BINDIR}\\qspgui.exe")
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 set(CPACK_NSIS_MODIFY_PATH ON)
 set(CPACK_NSIS_MANIFEST_DPI_AWARE ON)
@@ -226,9 +267,9 @@ set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
      WriteRegStr HKCR 'QSPGame' '' 'QSP Game'
      WriteRegStr HKCR 'QSPGame\\shell' '' 'open'
      WriteRegStr HKCR 'QSPGame\\DefaultIcon' \\
-                      '' '$INSTDIR\\bin\\qspgui.exe,0'
+                      '' '$INSTDIR\\${BINDIR}\\qspgui.exe,0'
      WriteRegStr HKCR 'QSPGame\\shell\\open\\command' \\
-                      '' '$INSTDIR\\bin\\qspgui.exe \"%1\"'
+                      '' '$INSTDIR\\${BINDIR}\\qspgui.exe \"%1\"'
      System::Call \\
        'Shell32::SHChangeNotify(i 0x8000000, i 0, i 0, i 0)'
      ")

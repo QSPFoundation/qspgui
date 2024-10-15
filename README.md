@@ -2,11 +2,11 @@
 
 Please check [Releases](https://github.com/QSPFoundation/qspgui/releases) section.
 
-## Linux build
+## Linux & MacOS build
 
 ```bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build --parallel $(nproc)
+cmake --build build
 ```
 
 ## Windows build

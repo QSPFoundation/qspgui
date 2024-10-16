@@ -9,6 +9,7 @@ include(GenerateExportHeader)
 include(GNUInstallDirs)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_BUILD_RPATH_USE_ORIGIN ON)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
@@ -186,6 +187,7 @@ if (WIN32)
 	set(RLIBDIR ${CMAKE_INSTALL_BINDIR})
 	set(HEADERDIR ${CMAKE_INSTALL_INCLUDEDIR})
 	set(DATADIR ${CMAKE_INSTALL_BINDIR})
+	set(INSTALL_RPATH "")
 elseif (APPLE)
 	set(BUNDLE_NAME qspgui.app)
 	set(BINDIR ${BUNDLE_NAME}/Contents/MacOS)
@@ -193,6 +195,7 @@ elseif (APPLE)
 	set(RLIBDIR ${BUNDLE_NAME}/Contents/Frameworks)
 	set(HEADERDIR ${BUNDLE_NAME}/Contents/Frameworks)
 	set(DATADIR ${BUNDLE_NAME}/Contents/Resources)
+	set(INSTALL_RPATH "@loader_path;@loader_path/../../${RLIBDIR}")
 elseif (UNIX)
 	set(BUNDLE_NAME qspgui)
 	set(BINDIR ${CMAKE_INSTALL_BINDIR})
@@ -200,10 +203,12 @@ elseif (UNIX)
 	set(RLIBDIR ${CMAKE_INSTALL_LIBDIR})
 	set(HEADERDIR ${CMAKE_INSTALL_INCLUDEDIR})
 	set(DATADIR ${CMAKE_INSTALL_DATADIR}/qspgui)
+	set(INSTALL_RPATH "$ORIGIN;$ORIGIN/../${RLIBDIR}")
 else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
 
+set_target_properties(qspgui qsp PROPERTIES INSTALL_RPATH ${INSTALL_RPATH})
 install(TARGETS qspgui qsp
 		COMPONENT Main
 		RUNTIME DESTINATION ${BINDIR}
@@ -213,6 +218,7 @@ install(TARGETS qspgui qsp
 		PUBLIC_HEADER DESTINATION ${HEADERDIR}
 		BUNDLE DESTINATION .)
 if (NOT USE_INSTALLED_WX)
+	set_target_properties(wxbase wxcore wxadv wxaui wxhtml PROPERTIES INSTALL_RPATH ${INSTALL_RPATH})
 	install(TARGETS wxbase wxcore wxadv wxaui wxhtml
 			COMPONENT Libs
 			RUNTIME DESTINATION ${BINDIR}

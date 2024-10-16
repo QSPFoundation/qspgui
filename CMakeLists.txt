@@ -208,7 +208,7 @@ else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
 
-set_target_properties(qspgui qsp PROPERTIES INSTALL_RPATH ${INSTALL_RPATH})
+set_target_properties(qspgui qsp PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
 install(TARGETS qspgui qsp
 		COMPONENT Main
 		RUNTIME DESTINATION ${BINDIR}
@@ -218,7 +218,7 @@ install(TARGETS qspgui qsp
 		PUBLIC_HEADER DESTINATION ${HEADERDIR}
 		BUNDLE DESTINATION .)
 if (NOT USE_INSTALLED_WX)
-	set_target_properties(wxbase wxcore wxadv wxaui wxhtml PROPERTIES INSTALL_RPATH ${INSTALL_RPATH})
+	set_target_properties(wxbase wxcore wxadv wxaui wxhtml PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
 	install(TARGETS wxbase wxcore wxadv wxaui wxhtml
 			COMPONENT Libs
 			RUNTIME DESTINATION ${BINDIR}

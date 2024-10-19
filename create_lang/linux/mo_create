@@ -10,5 +10,6 @@ DEST_LANG_DIR=$( realpath "$SCRIPT_DIR/../../misc/common/langs" )
 for f in $MO_DIR/*.mo ; do
     filename=$( basename -- "$f" )
     lang=${filename:7:2}
+    echo "Moving $f to $DEST_LANG_DIR/$lang"
     mv "$f" "$DEST_LANG_DIR/$lang/"
 done

@@ -45,7 +45,9 @@
     #include "icons/windowmode.xpm"
     #include "icons/about.xpm"
 
-    #define QSP_LOGO _("Quest Soft Player 5")
+    #include "qspgui_config.h"
+
+    #define QSP_LOGO "Quest Soft Player " QSPGUI_VER_STR
 
     enum
     {

@@ -167,9 +167,6 @@ msgstr "Перегляд"
 msgid "QSP games (*.qsp;*.gam)|*.qsp;*.gam"
 msgstr "Файли гри QSP (*.qsp;*.gam)|*.qsp;*.gam"
 
-msgid "Quest Soft Player 5"
-msgstr "Quest Soft Player 5"
-
 msgid "Quote not found!"
 msgstr "Відсутні лапки в кінці тексту!"
 
@@ -255,11 +252,11 @@ msgid "Unknown error!"
 msgstr "Невідома помилка!"
 
 msgid ""
-"Version: %s\n"
-"Engine Compiled: %s\n"
-"GUI Compiled: %s"
+"Engine version: %s\n"
+"Engine compiled: %s\n"
+"GUI compiled: %s"
 msgstr ""
-"Версія: %s\n"
+"Версія інтерпретатора: %s\n"
 "Дата компиляції інтерпретатора: %s\n"
 "Дата компиляції інтерфейсу: %s"
 

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 
-set(APP_VERSION CACHE STRING "0.0.0")
+if ("${APP_VERSION}" STREQUAL "")
+	set(APP_VERSION "0.0.0" CACHE STRING "App version" FORCE)
+endif()
 
 project(qspgui VERSION ${APP_VERSION} HOMEPAGE_URL "https://qsp.org")
 
@@ -131,6 +133,8 @@ else()
 					 "${CMAKE_BINARY_DIR}/wxWidgets-build"
 	)
 endif()
+
+configure_file(qspgui_config.h.cmakein qspgui_config.h @ONLY)
 
 set(QSPGUI_SOURCES
 	qspgui/animwin.cpp

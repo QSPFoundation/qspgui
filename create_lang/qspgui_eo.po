@@ -167,9 +167,6 @@ msgstr "Antaŭrigardo"
 msgid "QSP games (*.qsp;*.gam)|*.qsp;*.gam"
 msgstr "QSP ludoj (*.qsp;*.gam)|*.qsp;*.gam"
 
-msgid "Quest Soft Player 5"
-msgstr "Quest Soft Player 5"
-
 msgid "Quote not found!"
 msgstr "Mankas finiganta tekston citilo!"
 
@@ -255,11 +252,11 @@ msgid "Unknown error!"
 msgstr "Nekonata eraro!"
 
 msgid ""
-"Version: %s\n"
-"Engine Compiled: %s\n"
-"GUI Compiled: %s"
+"Engine version: %s\n"
+"Engine compiled: %s\n"
+"GUI compiled: %s"
 msgstr ""
-"Versio: %s\n"
+"Versio de interpretigilo: %s\n"
 "Dato de kompiligo de interpretigilo: %s\n"
 "Dato de kompiligo de interfaco: %s"
 

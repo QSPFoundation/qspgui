@@ -167,9 +167,6 @@ msgstr "Прадпрагляд"
 msgid "QSP games (*.qsp;*.gam)|*.qsp;*.gam"
 msgstr "Файлы гульняў QSP (*.qsp;*.gam)|*.qsp;*.gam"
 
-msgid "Quest Soft Player 5"
-msgstr "Quest Soft Player 5"
-
 msgid "Quote not found!"
 msgstr "Адсутнічае двукоссе, што завяршае тэкст!"
 
@@ -255,11 +252,11 @@ msgid "Unknown error!"
 msgstr "Невядомая памылка!"
 
 msgid ""
-"Version: %s\n"
-"Engine Compiled: %s\n"
-"GUI Compiled: %s"
+"Engine version: %s\n"
+"Engine compiled: %s\n"
+"GUI compiled: %s"
 msgstr ""
-"Версія: %s\n"
+"Версія інтэрпрэтатара: %s\n"
 "Дата кампіляцыі інтэрпрэтатара: %s\n"
 "Дата кампіляцыі інтэрфейсу: %s"
 

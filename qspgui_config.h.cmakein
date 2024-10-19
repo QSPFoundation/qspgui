@@ -1,0 +1,6 @@
+#ifndef QSPGUI_CONFIG_H
+#define QSPGUI_CONFIG_H
+
+#define QSPGUI_VER_STR "@qspgui_VERSION@"
+
+#endif

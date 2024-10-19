@@ -167,9 +167,6 @@ msgstr "Предпросмотр"
 msgid "QSP games (*.qsp;*.gam)|*.qsp;*.gam"
 msgstr "Файлы игр QSP (*.qsp;*.gam)|*.qsp;*.gam"
 
-msgid "Quest Soft Player 5"
-msgstr "Quest Soft Player 5"
-
 msgid "Quote not found!"
 msgstr "Отсутствует завершающая текст кавычка!"
 
@@ -255,11 +252,11 @@ msgid "Unknown error!"
 msgstr "Неизвестная ошибка!"
 
 msgid ""
-"Version: %s\n"
-"Engine Compiled: %s\n"
-"GUI Compiled: %s"
+"Engine version: %s\n"
+"Engine compiled: %s\n"
+"GUI compiled: %s"
 msgstr ""
-"Версия: %s\n"
+"Версия интерпретатора: %s\n"
 "Дата компиляции интерпретатора: %s\n"
 "Дата компиляции интерфейса: %s"
 

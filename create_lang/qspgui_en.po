@@ -212,14 +212,14 @@ msgstr "Select font color"
 msgid "Select game file"
 msgstr "Select game file"
 
-msgid "Select l&inks' color...\tAlt-I"
-msgstr "Select l&inks' color...\tAlt-I"
+msgid "Select l&inks color...\tAlt-I"
+msgstr "Select l&inks color...\tAlt-I"
 
 msgid "Select language"
 msgstr "Select language"
 
-msgid "Select links' color"
-msgstr "Select links' color"
+msgid "Select links color"
+msgstr "Select links color"
 
 msgid "Select saved game file"
 msgstr "Select saved game file"

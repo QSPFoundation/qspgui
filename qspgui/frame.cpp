@@ -554,7 +554,7 @@ void QSPFrame::ReCreateGUI()
     menuBar->SetLabel(ID_COLORS, _("&Colors"));
     menuBar->SetLabel(ID_SELECTFONTCOLOR, _("Select font &color...\tAlt-C"));
     menuBar->SetLabel(ID_SELECTBACKCOLOR, _("Select &background color...\tAlt-B"));
-    menuBar->SetLabel(ID_SELECTLINKCOLOR, _("Select l&inks' color...\tAlt-I"));
+    menuBar->SetLabel(ID_SELECTLINKCOLOR, _("Select l&inks color...\tAlt-I"));
     menuBar->SetLabel(ID_VOLUME, _("Sound &volume"));
     menuBar->SetLabel(ID_VOLUME0, _("No sound\tAlt-1"));
     menuBar->SetLabel(ID_VOLUME20, _("20%\tAlt-2"));
@@ -921,7 +921,7 @@ void QSPFrame::OnSelectLinkColor(wxCommandEvent& WXUNUSED(event))
     wxColourData data;
     data.SetColour(m_linkColor);
     wxColourDialog dialog(this, &data);
-    dialog.SetTitle(_("Select links' color"));
+    dialog.SetTitle(_("Select links color"));
     if (dialog.ShowModal() == wxID_OK)
     {
         m_linkColor = dialog.GetColourData().GetColour();

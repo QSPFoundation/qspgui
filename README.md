@@ -2,6 +2,11 @@
 
 Please check [Releases](https://github.com/QSPFoundation/qspgui/releases) section.
 
+## Screenshots
+
+<img alt="Screenshot 1" src="screenshots/example1.png" height="275px" /> <img alt="Screenshot 2" src="screenshots/example2.png" height="275px" />
+<img alt="Screenshot 3" src="screenshots/example3.png" height="275px" /> <img alt="Screenshot 4" src="screenshots/example4.png" height="275px" />
+
 ## Linux & MacOS build
 
 ```bash

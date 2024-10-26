@@ -278,13 +278,13 @@ set(CPACK_NSIS_MODIFY_PATH ON)
 set(CPACK_NSIS_MANIFEST_DPI_AWARE ON)
 
 set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
-     WriteRegStr HKCR '.qsp' '' 'QSPGame'
-     WriteRegStr HKCR '.gam' '' 'QSPGame'
-     WriteRegStr HKCR 'QSPGame' '' 'QSP Game'
-     WriteRegStr HKCR 'QSPGame\\shell' '' 'open'
-     WriteRegStr HKCR 'QSPGame\\DefaultIcon' \\
+     WriteRegStr HKCR '.qsp' '' 'QSPClassic'
+     WriteRegStr HKCR '.gam' '' 'QSPClassic'
+     WriteRegStr HKCR 'QSPClassic' '' 'QSP Game'
+     WriteRegStr HKCR 'QSPClassic\\shell' '' 'open'
+     WriteRegStr HKCR 'QSPClassic\\DefaultIcon' \\
                       '' '$INSTDIR\\${BINDIR}\\qspgui.exe,0'
-     WriteRegStr HKCR 'QSPGame\\shell\\open\\command' \\
+     WriteRegStr HKCR 'QSPClassic\\shell\\open\\command' \\
                       '' '$INSTDIR\\${BINDIR}\\qspgui.exe \"%1\"'
      System::Call \\
        'Shell32::SHChangeNotify(i 0x8000000, i 0, i 0, i 0)'
@@ -292,7 +292,7 @@ set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
 set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
      DeleteRegKey HKCR '.qsp'
      DeleteRegKey HKCR '.gam'
-     DeleteRegKey HKCR 'QSPGame'
+     DeleteRegKey HKCR 'QSPClassic'
      ")
 
 set(CPACK_COMPONENTS_GROUPING ALL_COMPONENTS_IN_ONE)

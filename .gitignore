@@ -1,6 +1,6 @@
-build/*
-dist/*
-build_packages/*
+/build/
+/dist/
+/build_packages/
 
 # CMake files
 CMakeCache.txt

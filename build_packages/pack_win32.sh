@@ -4,9 +4,9 @@ set -e
 
 # Validation
 [ ! -d "./build_packages" ] && echo "Run this script from the project root directory" && exit
-[ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
+[ -z "$RELEASE_VER" ] && echo "RELEASE_VER isn't specified" && exit
 
-CMAKE_VER=$(echo "$QSP_RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+CMAKE_VER=$(echo "$RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
 # Build
 mkdir -p ./build_packages/win32
@@ -24,5 +24,5 @@ REL_BUILD_DIR=./build_packages/win32
 ./build_packages/dockcross-windows-static-x86 cpack -B $REL_BUILD_DIR --config $REL_BUILD_DIR/CPackConfig.cmake
 
 # Move to dist
-mv $REL_BUILD_DIR/packages/*.zip "./dist/qspgui-$QSP_RELEASE_VER-win32.zip"
-mv $REL_BUILD_DIR/packages/*.exe "./dist/qspgui-$QSP_RELEASE_VER-win32.exe"
+mv $REL_BUILD_DIR/packages/*.zip "./dist/qspgui-$RELEASE_VER-win32.zip"
+mv $REL_BUILD_DIR/packages/*.exe "./dist/qspgui-$RELEASE_VER-win32.exe"

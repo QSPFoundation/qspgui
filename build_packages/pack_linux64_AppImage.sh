@@ -4,9 +4,9 @@ set -e
 
 # Validation
 [ ! -d "./build_packages" ] && echo "Run this script from the project root directory" && exit
-[ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
+[ -z "$RELEASE_VER" ] && echo "RELEASE_VER isn't specified" && exit
 
-CMAKE_VER=$(echo "$QSP_RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+CMAKE_VER=$(echo "$RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
 # Build
 mkdir -p ./build_packages/linux64_AppImage
@@ -35,4 +35,4 @@ docker run --rm \
 rm ./build_packages/linux64_AppImage/linuxdeploy-*.AppImage
 
 # Move to dist
-mv ./build_packages/linux64_AppImage/*.AppImage "./dist/QSP_Classic-$QSP_RELEASE_VER-x86_64.AppImage"
+mv ./build_packages/linux64_AppImage/*.AppImage "./dist/QSP_Classic-$RELEASE_VER-x86_64.AppImage"

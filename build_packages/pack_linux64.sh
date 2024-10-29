@@ -4,9 +4,9 @@ set -e
 
 # Validation
 [ ! -d "./build_packages" ] && echo "Run this script from the project root directory" && exit
-[ -z "$QSP_RELEASE_VER" ] && echo "QSP_RELEASE_VER isn't specified" && exit
+[ -z "$RELEASE_VER" ] && echo "RELEASE_VER isn't specified" && exit
 
-CMAKE_VER=$(echo "$QSP_RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+CMAKE_VER=$(echo "$RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
 
 # Build
 mkdir -p ./build_packages/linux64
@@ -29,6 +29,6 @@ docker run --rm \
   $IMAGE "/work/$SCRIPT"
 
 # Move to dist
-mv ./build_packages/linux64/packages/*.rpm "./dist/qspgui-$QSP_RELEASE_VER-linux64.rpm"
-mv ./build_packages/linux64/packages/*.deb "./dist/qspgui-$QSP_RELEASE_VER-linux64.deb"
-mv ./build_packages/linux64/packages/*.tar.gz "./dist/qspgui-$QSP_RELEASE_VER-linux64.tar.gz"
+mv ./build_packages/linux64/packages/*.rpm "./dist/qspgui-$RELEASE_VER-linux64.rpm"
+mv ./build_packages/linux64/packages/*.deb "./dist/qspgui-$RELEASE_VER-linux64.deb"
+mv ./build_packages/linux64/packages/*.tar.gz "./dist/qspgui-$RELEASE_VER-linux64.tar.gz"

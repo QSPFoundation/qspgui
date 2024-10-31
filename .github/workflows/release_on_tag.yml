@@ -7,8 +7,8 @@ name: Release on tag
 run-name: Release on tag ${{ github.ref_name }}
 
 jobs:
-  build:
-    name: Build and upload ${{ github.ref_name }}
+  build_win:
+    name: Build and upload ${{ github.ref_name }} (Windows)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,7 +22,29 @@ jobs:
             echo 'EOF'
           } >> "${GITHUB_OUTPUT}"
       - name: Build release
-        run: ./build_release.sh "${{ github.ref_name }}"
+        run: ./build_release_windows.sh "${{ github.ref_name }}"
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          make_latest: true
+          body: ${{ steps.tag-data.outputs.annotation }}
+          files: dist/*
+  build_linux:
+    name: Build and upload ${{ github.ref_name }} (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get annotation
+        id: tag-data
+        run: |
+          {
+            echo 'annotation <<EOF'
+            git for-each-ref "${GITHUB_REF}" --format '%(contents)'
+            echo 'EOF'
+          } >> "${GITHUB_OUTPUT}"
+      - name: Build release
+        run: ./build_release_linux.sh "${{ github.ref_name }}"
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
@@ -30,7 +52,7 @@ jobs:
           body: ${{ steps.tag-data.outputs.annotation }}
           files: dist/*
   build_macos:
-    name: Build and upload on MacOS ${{ github.ref_name }}
+    name: Build and upload ${{ github.ref_name }} (MacOS)
     runs-on: macos-latest
     steps:
       - name: Checkout code
@@ -43,7 +65,7 @@ jobs:
             git for-each-ref "${GITHUB_REF}" --format '%(contents)'
             echo 'EOF'
           } >> "${GITHUB_OUTPUT}"
-      - name: Build MacOS release
+      - name: Build release
         run: ./build_release_macos.sh "${{ github.ref_name }}"
       - name: Publish release
         uses: softprops/action-gh-release@v2

@@ -27,4 +27,4 @@ cmake --install $REL_BUILD_DIR --component Main --strip
 cpack -B $REL_BUILD_DIR --config $REL_BUILD_DIR/CPackConfig.cmake
 
 # Move to dist
-mv ./build_packages/macos/packages/*.dmg "./dist/qspgui-$RELEASE_VER-universal.dmg"
+mv $REL_BUILD_DIR/packages/*.dmg "./dist/qspgui-$RELEASE_VER-universal.dmg"

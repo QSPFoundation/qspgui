@@ -457,9 +457,9 @@ index 07bc8ef592..dc0ec1310c 100644
      m_UseLink = false;
      m_Link = wxHtmlLinkInfo( wxEmptyString );
 -    m_LinkColor = wxPrivate::GetLinkColour();
-     m_ActualColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
-     m_ActualBackgroundColor = m_windowInterface
-                             ? m_windowInterface->GetHTMLBackgroundColour()
+ 
+     // if an HTML window interface is connected to this parser,
+     // then use its control background color and the system
 @@ -257,36 +257,6 @@ wxFSFile *wxHtmlWinParser::OpenURL(wxHtmlURLType type,
      for (;;)
      {

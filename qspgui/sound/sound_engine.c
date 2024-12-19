@@ -190,7 +190,7 @@ static ma_result ma_midi_ds_get_data_format(ma_data_source *pDataSource, ma_form
 
     *pFormat = tsf->format;
     *pChannels = (tsf->sf->outputmode == TSF_MONO) ? 1 : 2;
-    *pSampleRate = tsf->sf->outSampleRate;
+    *pSampleRate = (ma_uint32)tsf->sf->outSampleRate;
     if (pChannelMap != NULL)
         ma_channel_map_init_standard(ma_standard_channel_map_default, pChannelMap, channelMapCap, *pChannels);
     return MA_SUCCESS;

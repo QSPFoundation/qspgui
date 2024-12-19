@@ -226,7 +226,7 @@ static ma_result ma_decoding_backend_init_midi(void *pUserData, ma_read_proc onR
     if (tsf == NULL)
         return MA_OUT_OF_MEMORY;
 
-    MA_ZERO_OBJECT(tsf);
+    MA_ZERO_MEMORY(tsf, sizeof(ma_libtsf));
     tsf->format = ma_format_f32;
 
     if (pConfig != NULL && (pConfig->preferredFormat == ma_format_f32 || pConfig->preferredFormat == ma_format_s16))
@@ -303,9 +303,9 @@ int sound_init_engine()
         &g_ma_decoding_backend_vtable_midi
     };
 
-    MA_ZERO_OBJECT(&ma_current_engine);
-    MA_ZERO_OBJECT(&ma_current_resource_manager);
-    MA_ZERO_OBJECT(&ma_current_soundfont);
+    MA_ZERO_MEMORY(&ma_current_engine, sizeof(ma_engine));
+    MA_ZERO_MEMORY(&ma_current_resource_manager, sizeof(ma_resource_manager));
+    MA_ZERO_MEMORY(&ma_current_soundfont, sizeof(tsf_soundfont));
 
     resourceManagerConfig = ma_resource_manager_config_init();
     resourceManagerConfig.decodedFormat = ma_format_f32;
@@ -367,7 +367,7 @@ ma_sound_file sound_play_file(const char *file)
     if (sound == NULL)
         return NULL;
 
-    MA_ZERO_OBJECT(sound);
+    MA_ZERO_MEMORY(sound, sizeof(ma_sound));
     result = ma_sound_init_from_file(&ma_current_engine, file, MA_SOUND_FLAG_NO_SPATIALIZATION, 0, 0, sound);
     if (result != MA_SUCCESS)
     {
@@ -392,7 +392,7 @@ ma_sound_file sound_play_file_w(const wchar_t *file)
     if (sound == NULL)
         return NULL;
 
-    MA_ZERO_OBJECT(sound);
+    MA_ZERO_MEMORY(sound, sizeof(ma_sound));
     result = ma_sound_init_from_file_w(&ma_current_engine, file, MA_SOUND_FLAG_NO_SPATIALIZATION, 0, 0, sound);
     if (result != MA_SUCCESS)
     {

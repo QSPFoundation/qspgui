@@ -847,6 +847,7 @@ void QSPFrame::OnSelectFont(wxCommandEvent& WXUNUSED(event))
     font.SetPointSize(m_fontSize);
     font.SetFaceName(m_fontName);
     data.EnableEffects(false);
+    data.SetAllowSymbols(false);
     data.SetInitialFont(font);
     wxFontDialog dialog(this, data);
     dialog.SetTitle(_("Select font"));

@@ -63,14 +63,13 @@ void QSPTextBox::SetIsHtml(bool isHtml)
     }
 }
 
-void QSPTextBox::RefreshUI(bool toScroll)
+void QSPTextBox::RefreshUI()
 {
     wxString color(QSPTools::GetHexColor(GetForegroundColour()));
     wxString text(QSPTools::HtmlizeWhitespaces(m_toUseHtml ? m_text : QSPTools::ProceedAsPlain(m_text)));
     wxON_BLOCK_EXIT_THIS0(QSPTextBox::Thaw);
     Freeze();
     SetPage(wxString::Format(m_outFormat, color.wx_str(), text.wx_str()));
-    if (toScroll) Scroll(0, 0x7FFFFFFF);
 }
 
 void QSPTextBox::LoadBackImage(const wxString& imagePath)
@@ -109,7 +108,8 @@ void QSPTextBox::SetText(const wxString& text, bool toScroll)
                 toScroll = false;
         }
         m_text = text;
-        RefreshUI(toScroll);
+        RefreshUI();
+        Scroll(0, toScroll ? 0x7FFFFFFF : 0);
     }
 }
 

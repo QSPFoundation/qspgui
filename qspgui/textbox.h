@@ -32,7 +32,7 @@
         QSPTextBox(wxWindow *parent, wxWindowID id);
 
         // Methods
-        void RefreshUI(bool toScroll = false);
+        void RefreshUI();
         void LoadBackImage(const wxString& imagePath);
         void SetPathProvider(PathProvider *provider) { m_pathProvider = provider; }
 

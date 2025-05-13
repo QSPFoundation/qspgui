@@ -73,9 +73,9 @@ void QSPApp::InitUI()
 
     // ----------------------
     QSPFrame * frame = new QSPFrame(configPath, m_transHelper);
+    QSPCallbacks::Init(frame);
     frame->LoadSettings();
     frame->EnableControls(false);
-    QSPCallbacks::Init(frame);
     // ----------------------
     wxInitEvent initEvent;
     if (GetAutoRunEvent(initEvent))

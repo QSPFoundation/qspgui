@@ -511,7 +511,7 @@ void QSPFrame::ShowError()
     m_toProcessEvents = false;
     dialog.ShowModal();
     m_toProcessEvents = oldToProcessEvents;
-    if (m_isGameOpened) QSPCallbacks::RefreshInt(QSP_FALSE);
+    if (m_isGameOpened) QSPCallbacks::RefreshInt(QSP_FALSE, QSP_FALSE);
 }
 
 void QSPFrame::UpdateTitle()
@@ -994,7 +994,7 @@ void QSPFrame::OnToggleCaptions(wxCommandEvent& WXUNUSED(event))
 void QSPFrame::OnToggleHotkeys(wxCommandEvent& WXUNUSED(event))
 {
     m_toShowHotkeys = !m_toShowHotkeys;
-    if (m_toProcessEvents) QSPCallbacks::RefreshInt(QSP_FALSE);
+    if (m_toProcessEvents) QSPCallbacks::RefreshInt(QSP_FALSE, QSP_FALSE);
 }
 
 void QSPFrame::OnAbout(wxCommandEvent& WXUNUSED(event))

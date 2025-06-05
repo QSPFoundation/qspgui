@@ -119,7 +119,7 @@
         static void SetOverallVolume(float coeff);
 
         // Callbacks
-        static int RefreshInt(QSP_BOOL isForced);
+        static int RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc);
         static int SetTimer(int msecs);
         static int SetInputStrText(QSPString text);
         static int IsPlay(QSPString file);

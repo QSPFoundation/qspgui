@@ -82,9 +82,8 @@ int QSPCallbacks::SetTimer(int msecs)
     return 0;
 }
 
-int QSPCallbacks::RefreshInt(QSP_BOOL isForced)
+int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
 {
-    static int oldFullRefreshCount = 0;
     QSP_BIGINT numVal;
     QSPString strVal;
     bool toScroll, canSave;
@@ -99,20 +98,16 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced)
     if (QSPIsVarsDescChanged())
     {
         QSPString varsDesc = QSPGetVarsDesc();
+        // we always try to scroll additional description
         m_frame->GetVars()->SetText(wxString(varsDesc.Str, varsDesc.End), toScroll);
     }
     // -------------------------------
-    int fullRefreshCount = QSPGetFullRefreshCount();
-    if (oldFullRefreshCount != fullRefreshCount)
-    {
-        toScroll = false;
-        oldFullRefreshCount = fullRefreshCount;
-    }
     m_frame->GetDesc()->SetIsHtml(m_isHtml);
     if (QSPIsMainDescChanged())
     {
         QSPString mainDesc = QSPGetMainDesc();
-        m_frame->GetDesc()->SetText(wxString(mainDesc.Str, mainDesc.End), toScroll);
+        // we don't scroll main description if it's completely updated (isNewDesc is true)
+        m_frame->GetDesc()->SetText(wxString(mainDesc.Str, mainDesc.End), !isNewDesc && toScroll);
     }
     // -------------------------------
     m_frame->GetActions()->SetIsHtml(m_isHtml);

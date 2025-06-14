@@ -4,7 +4,7 @@ project(wxWidgets-download NONE)
 include(ExternalProject)
 ExternalProject_Add(wxWidgets
     GIT_REPOSITORY https://github.com/wxWidgets/wxWidgets.git
-    GIT_TAG 5d8d577d74632e71075575de4b1ca38f9200783a
+    GIT_TAG 66bd59a958705398ad22536a8d301596b1951cb8
     GIT_PROGRESS true
     SOURCE_DIR "${CMAKE_BINARY_DIR}/wxWidgets-src"
     BINARY_DIR "${CMAKE_BINARY_DIR}/wxWidgets-build"

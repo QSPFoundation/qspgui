@@ -159,7 +159,7 @@ int QSPCallbacks::SetInputStrText(QSPString text)
 
 int QSPCallbacks::IsPlay(QSPString file)
 {
-    wxString fileName(file.Str, file.End);
+    wxString fileName(qspToWxString(file));
     QSPSounds::iterator elem = m_sounds.find(fileName.Upper());
     if (elem != m_sounds.end() && elem->second.IsPlaying())
         return QSP_TRUE;
@@ -170,7 +170,7 @@ int QSPCallbacks::CloseFile(QSPString file)
 {
     if (file.Str)
     {
-        wxString fileName(file.Str, file.End);
+        wxString fileName(qspToWxString(file));
         QSPSounds::iterator elem = m_sounds.find(fileName.Upper());
         if (elem != m_sounds.end())
         {
@@ -192,7 +192,7 @@ int QSPCallbacks::PlayFile(QSPString file, int volume)
     QSPSound snd;
     if (SetVolume(file, volume)) return 0;
     CloseFile(file);
-    wxString fileName(file.Str, file.End);
+    wxString fileName(qspToWxString(file));
     wxString filePath(m_frame->ComposeGamePath(fileName));
     if (!snd.Play(filePath, volume, m_volumeCoeff))
         return 0;
@@ -422,7 +422,7 @@ int QSPCallbacks::SaveGameStatus(QSPString file)
 int QSPCallbacks::Version(QSPString param, QSP_CHAR *buffer, int maxLen)
 {
     wxString result;
-    wxString request(param.Str, param.End);
+    wxString request(qspToWxString(param));
 
     if (request.IsEmpty())
     {
@@ -447,7 +447,7 @@ int QSPCallbacks::Version(QSPString param, QSP_CHAR *buffer, int maxLen)
 bool QSPCallbacks::SetVolume(QSPString file, int volume)
 {
     if (!IsPlay(file)) return false;
-    wxString fileName(file.Str, file.End);
+    wxString fileName(qspToWxString(file));
     QSPSounds::iterator elem = m_sounds.find(fileName.Upper());
     if (elem != m_sounds.end())
     {

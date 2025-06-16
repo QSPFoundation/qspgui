@@ -472,9 +472,9 @@ void QSPFrame::ShowError()
     if (m_toQuit) return;
     QSPErrorInfo errorInfo = QSPGetLastErrorData();
     if (!errorInfo.ErrorNum) return; // error is undefined
-    wxString locName(errorInfo.LocName.Str, errorInfo.LocName.End);
-    wxString errorDesc(errorInfo.ErrorDesc.Str, errorInfo.ErrorDesc.End);
-    wxString line(errorInfo.IntLine.Str, errorInfo.IntLine.End);
+    wxString locName(qspToWxString(errorInfo.LocName));
+    wxString errorDesc(qspToWxString(errorInfo.ErrorDesc));
+    wxString line(qspToWxString(errorInfo.IntLine));
     if (line.IsEmpty())
         line = _("Unknown");
 

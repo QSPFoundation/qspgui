@@ -1,4 +1,4 @@
-// Copyright (C) 2001-2024 Val Argunov (byte AT qsp DOT org)
+// Copyright (C) 2001-2025 Val Argunov (byte AT qsp DOT org)
 /*
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -1002,7 +1002,7 @@ void QSPFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
     wxAboutDialogInfo info;
     info.SetIcon(wxIcon(logo_big_xpm));
     info.SetName(QSP_LOGO);
-    info.SetCopyright(wxT("QSP Foundation, 2001-2024"));
+    info.SetCopyright(wxT("QSP Foundation, 2001-2025"));
     QSPString version = QSPGetVersion();
     QSPString libCompiledDate = QSPGetCompiledDateTime();
     wxString guiCompiledDate(wxT(__DATE__) wxT(", ") wxT(__TIME__));

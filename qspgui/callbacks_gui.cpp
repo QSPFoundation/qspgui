@@ -99,7 +99,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
     {
         QSPString varsDesc = QSPGetVarsDesc();
         // we always try to scroll additional description
-        m_frame->GetVars()->SetText(wxString(varsDesc.Str, varsDesc.End), toScroll);
+        m_frame->GetVars()->SetText(qspToWxString(varsDesc), toScroll);
     }
     // -------------------------------
     m_frame->GetDesc()->SetIsHtml(m_isHtml);
@@ -107,7 +107,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
     {
         QSPString mainDesc = QSPGetMainDesc();
         // we don't scroll main description if it's completely updated (isNewDesc is true)
-        m_frame->GetDesc()->SetText(wxString(mainDesc.Str, mainDesc.End), !isNewDesc && toScroll);
+        m_frame->GetDesc()->SetText(qspToWxString(mainDesc), !isNewDesc && toScroll);
     }
     // -------------------------------
     m_frame->GetActions()->SetIsHtml(m_isHtml);
@@ -117,7 +117,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
         int i, actionsCount = QSPGetActions(items, MAX_LIST_ITEMS);
         m_frame->GetActions()->BeginItems();
         for (i = 0; i < actionsCount; ++i)
-            m_frame->GetActions()->AddItem(wxString(items[i].Image.Str, items[i].Image.End), wxString(items[i].Name.Str, items[i].Name.End));
+            m_frame->GetActions()->AddItem(qspToWxString(items[i].Image), qspToWxString(items[i].Name));
         m_frame->GetActions()->EndItems();
     }
     m_frame->GetActions()->SetSelection(QSPGetSelActionIndex());
@@ -127,7 +127,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
         int i, objectsCount = QSPGetObjects(items, MAX_LIST_ITEMS);
         m_frame->GetObjects()->BeginItems();
         for (i = 0; i < objectsCount; ++i)
-            m_frame->GetObjects()->AddItem(wxString(items[i].Image.Str, items[i].Image.End), wxString(items[i].Name.Str, items[i].Name.End));
+            m_frame->GetObjects()->AddItem(qspToWxString(items[i].Image), qspToWxString(items[i].Name));
         m_frame->GetObjects()->EndItems();
     }
     m_frame->GetObjects()->SetSelection(QSPGetSelObjectIndex());
@@ -153,7 +153,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
 int QSPCallbacks::SetInputStrText(QSPString text)
 {
     if (m_frame->ToQuit()) return 0;
-    m_frame->GetInput()->SetText(wxString(text.Str, text.End));
+    m_frame->GetInput()->SetText(qspToWxString(text));
     return 0;
 }
 
@@ -269,7 +269,7 @@ int QSPCallbacks::Msg(QSPString str)
         m_frame->GetDesc()->GetForegroundColour(),
         m_frame->GetDesc()->GetTextFont(),
         _("Info"),
-        wxString(str.Str, str.End),
+        qspToWxString(str),
         m_isHtml,
         m_frame
     );
@@ -285,7 +285,7 @@ int QSPCallbacks::ShowMenu(QSPListItem *items, int count)
     m_frame->EnableControls(false);
     m_frame->DeleteMenu();
     for (int i = 0; i < count; ++i)
-        m_frame->AddMenuItem(wxString(items[i].Name.Str, items[i].Name.End), wxString(items[i].Image.Str, items[i].Image.End));
+        m_frame->AddMenuItem(qspToWxString(items[i].Name), qspToWxString(items[i].Image));
     int index = m_frame->ShowMenu();
     m_frame->EnableControls(true);
     return index;
@@ -300,7 +300,7 @@ int QSPCallbacks::Input(QSPString text, QSP_CHAR *buffer, int maxLen)
         m_frame->GetDesc()->GetForegroundColour(),
         m_frame->GetDesc()->GetTextFont(),
         _("Input data"),
-        wxString(text.Str, text.End),
+        qspToWxString(text),
         m_isHtml,
         m_frame
     );
@@ -320,7 +320,7 @@ int QSPCallbacks::ShowImage(QSPString file)
     if (m_frame->ToQuit()) return 0;
     if (file.Str)
     {
-        wxString imgFullPath(m_frame->ComposeGamePath(wxString(file.Str, file.End)));
+        wxString imgFullPath(m_frame->ComposeGamePath(qspToWxString(file)));
         m_frame->ShowPane(ID_VIEWPIC, m_frame->GetImgView()->OpenFile(imgFullPath));
     }
     else
@@ -333,7 +333,7 @@ int QSPCallbacks::ShowImage(QSPString file)
 int QSPCallbacks::OpenGame(QSPString file, QSP_BOOL isNewGame)
 {
     if (m_frame->ToQuit()) return 0;
-    wxString fullPath(m_frame->ComposeGamePath(wxString(file.Str, file.End)));
+    wxString fullPath(m_frame->ComposeGamePath(qspToWxString(file)));
     if (wxFileExists(fullPath))
     {
         wxFile fileToLoad(fullPath);
@@ -355,7 +355,7 @@ int QSPCallbacks::OpenGameStatus(QSPString file)
     wxString fullPath;
     if (file.Str)
     {
-        fullPath = m_frame->ComposeGamePath(wxString(file.Str, file.End));
+        fullPath = m_frame->ComposeGamePath(qspToWxString(file));
     }
     else
     {
@@ -385,7 +385,7 @@ int QSPCallbacks::SaveGameStatus(QSPString file)
     wxString fullPath;
     if (file.Str)
     {
-        fullPath = m_frame->ComposeGamePath(wxString(file.Str, file.End));
+        fullPath = m_frame->ComposeGamePath(qspToWxString(file));
     }
     else
     {
@@ -427,7 +427,7 @@ int QSPCallbacks::Version(QSPString param, QSP_CHAR *buffer, int maxLen)
     if (request.IsEmpty())
     {
         QSPString libVersion = QSPGetVersion();
-        result = QSPTools::GetVersion(wxString(libVersion.Str, libVersion.End));
+        result = QSPTools::GetVersion(qspToWxString(libVersion));
     }
     else
     {

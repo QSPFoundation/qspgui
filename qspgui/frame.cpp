@@ -1008,8 +1008,8 @@ void QSPFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
     wxString guiCompiledDate(wxT(__DATE__) wxT(", ") wxT(__TIME__));
     info.SetDescription(wxString::Format(
         _("Engine version: %s\nEngine compiled: %s\nGUI compiled: %s"),
-        wxString(version.Str, version.End).wx_str(),
-        wxString(libCompiledDate.Str, libCompiledDate.End).wx_str(),
+        qspToWxString(version).wx_str(),
+        qspToWxString(libCompiledDate).wx_str(),
         guiCompiledDate.wx_str()
     ));
     info.SetWebSite(wxT("https://qsp.org"));

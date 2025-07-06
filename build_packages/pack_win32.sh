@@ -6,15 +6,13 @@ set -e
 [ ! -d "./build_packages" ] && echo "Run this script from the project root directory" && exit
 [ -z "$RELEASE_VER" ] && echo "RELEASE_VER isn't specified" && exit
 
-CMAKE_VER=$(echo "$RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-
 # Build
 mkdir -p ./build_packages/win32
 
 REL_BUILD_DIR=./build_packages/win32
 
 ./build_packages/dockcross-windows-static-x86 cmake -S . -B $REL_BUILD_DIR -GNinja \
-  -DAPP_VERSION="$CMAKE_VER" \
+  -DAPP_VERSION="$RELEASE_VER" \
   -DCPACK_OUTPUT_FILE_PREFIX=$REL_BUILD_DIR/packages \
   -DCPACK_GENERATOR="ZIP;NSIS" \
   -DCMAKE_INSTALL_PREFIX=/usr/local \

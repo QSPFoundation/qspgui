@@ -6,15 +6,13 @@ set -e
 [ ! -d "./build_packages" ] && echo "Run this script from the project root directory" && exit
 [ -z "$RELEASE_VER" ] && echo "RELEASE_VER isn't specified" && exit
 
-CMAKE_VER=$(echo "$RELEASE_VER" | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
-
 # Build
 mkdir -p ./build_packages/macos
 
 REL_BUILD_DIR=./build_packages/macos
 
 cmake -S . -B $REL_BUILD_DIR \
-  -DAPP_VERSION="$CMAKE_VER" \
+  -DAPP_VERSION="$RELEASE_VER" \
   -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=11 \
   -DCPACK_OUTPUT_FILE_PREFIX=$REL_BUILD_DIR/packages \

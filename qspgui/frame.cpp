@@ -660,6 +660,9 @@ void QSPFrame::CallPaneFunc(wxWindowID id, QSP_BOOL toShow) const
     case ID_INPUT:
         QSPShowWindow(QSP_WIN_INPUT, toShow);
         break;
+    case ID_VIEWPIC:
+        QSPShowWindow(QSP_WIN_VIEW, toShow);
+        break;
     }
 }
 

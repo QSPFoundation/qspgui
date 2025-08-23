@@ -48,21 +48,6 @@ index 969f32c304..c81987e328 100644
      // rendering style for the parser which allows us to customize our colours
      wxHtmlListBoxStyle *m_htmlRendStyle;
  
-diff --git a/src/aui/floatpane.cpp b/src/aui/floatpane.cpp
-index 5fe6f64bab..5d7522ad3f 100644
---- a/src/aui/floatpane.cpp
-+++ b/src/aui/floatpane.cpp
-@@ -129,10 +129,6 @@ void wxAuiFloatingFrame::SetPaneWindow(const wxAuiPaneInfo& pane)
-     // pane.floating_size from inside it so we must also record its original
-     // value before doing it.
-     const bool hasFloatingSize = pane.floating_size != wxDefaultSize;
--    if (pane.IsFixed())
--    {
--        SetWindowStyleFlag(GetWindowStyleFlag() & ~wxRESIZE_BORDER);
--    }
- 
-     if ( hasFloatingSize )
-     {
 diff --git a/src/aui/framemanager.cpp b/src/aui/framemanager.cpp
 index c88e3070da..466c8ba01e 100644
 --- a/src/aui/framemanager.cpp
@@ -406,7 +391,7 @@ index cee2fdfc9d..67980a98ca 100644
 -            image.Rescale(m_Width, m_Height, wxIMAGE_QUALITY_HIGH);
 -            (*m_bitmap) = wxBitmap(image);
 -        }
--#endif 
+-#endif
 -
 -        if (m_Width != m_bitmap->GetLogicalWidth())
 -            imageScaleX = (double) m_Width / (double) m_bitmap->GetLogicalWidth();

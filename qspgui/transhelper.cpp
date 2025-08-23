@@ -61,7 +61,7 @@ bool QSPTranslationHelper::AskUserForLanguage()
     {
         for (bool cont = dir.GetFirst(&filename, wxT("*"), wxDIR_DEFAULT); cont; cont = dir.GetNext(&filename))
         {
-            if (langinfo = wxLocale::FindLanguageInfo(filename))
+            if ((langinfo = wxLocale::FindLanguageInfo(filename)))
             {
                 names.Add(langinfo->Description);
                 identifiers.Add(langinfo->Language);

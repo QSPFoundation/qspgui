@@ -31,6 +31,9 @@
     #define QSP_SOUNDPLUGINS wxT("sound")
     #define QSP_MIDISOUNDFONT wxT("midi.sf2")
 
+    #define QSP_LATESTVERAPI wxT("https://api.github.com/repos/QSPFoundation/qspgui/releases/latest")
+    #define QSP_LATESTVERPAGE wxT("https://github.com/QSPFoundation/qspgui/releases/latest")
+
     class QSPTools
     {
     public:

@@ -21,6 +21,8 @@
     #include <wx/wx.h>
     #include <wx/fileconf.h>
     #include <wx/cmdline.h>
+    #include <wx/regex.h>
+    #include <wx/webrequest.h>
     #include <wx/fontenum.h>
     #include <wx/fontdlg.h>
     #include <wx/colordlg.h>
@@ -34,6 +36,7 @@
     #include "imgcanvas.h"
     #include "initevent.h"
     #include "path_provider.h"
+    #include "updateappdialog.h"
 
     #include "icons/logo.xpm"
     #include "icons/logo_big.xpm"
@@ -47,7 +50,8 @@
 
     #include "qspgui_config.h"
 
-    #define QSP_LOGO "Quest Soft Player " QSPGUI_VER_STR
+    #define QSP_VER wxT(QSPGUI_VER_STR)
+    #define QSP_LOGO wxT("Quest Soft Player ") QSP_VER
 
     enum
     {
@@ -72,6 +76,8 @@
         ID_SELECTFONTCOLOR,
         ID_SELECTBACKCOLOR,
         ID_SELECTLINKCOLOR,
+        ID_CHECKUPDATESONSTARTUP,
+        ID_CHECKUPDATES,
         ID_SELECTLANG,
         ID_TOGGLEWINMODE,
         ID_TOGGLEOBJS,
@@ -90,6 +96,12 @@
         ID_TIMER,
 
         ID_DUMMY
+    };
+
+    enum AppUpdateType
+    {
+        UPDATE_SHOW_ONLY_NEW,
+        UPDATE_SHOW_ALL_RESULTS
     };
 
     class QSPFrame : public wxFrame, public PathProvider
@@ -125,8 +137,12 @@
         QSPImgCanvas *GetImgView() const { return m_imgView; }
         wxMenu *GetGameMenu() const { return m_gameMenu; }
         bool ToShowHotkeys() const { return m_toShowHotkeys; }
+        bool ToCheckUpdates() const { return m_toCheckUpdates; }
         bool ToQuit() const { return m_toQuit; }
         bool IsKeyPressedWhileDisabled() const { return m_keyPressedWhileDisabled; }
+        void CheckLatestVersion(int type);
+        void ProcessVersionResult(const wxString &versionInfo, int type);
+
     protected:
         // Internal methods
         void ShowError();
@@ -147,6 +163,7 @@
         void SaveGameState(const wxString& fullPath);
 
         // Events
+        void OnVersionRequestState(wxWebRequestEvent& event);
         void OnInit(wxInitEvent& event);
         void OnClose(wxCloseEvent& event);
         void OnTimer(wxTimerEvent& event);
@@ -162,6 +179,7 @@
         void OnSelectFontColor(wxCommandEvent& event);
         void OnSelectBackColor(wxCommandEvent& event);
         void OnSelectLinkColor(wxCommandEvent& event);
+        void OnCheckUpdatesOnStartup(wxCommandEvent& event);
         void OnSelectLang(wxCommandEvent& event);
         void OnToggleWinMode(wxCommandEvent& event);
         void OnToggleObjs(wxCommandEvent& event);
@@ -171,6 +189,7 @@
         void OnToggleCaptions(wxCommandEvent& event);
         void OnToggleHotkeys(wxCommandEvent& event);
         void OnVolume(wxCommandEvent& event);
+        void OnCheckUpdates(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnLinkClicked(wxHtmlLinkEvent& event);
         void OnObjectChange(wxCommandEvent& event);
@@ -214,6 +233,7 @@
         bool m_toQuit;
         bool m_keyPressedWhileDisabled;
         bool m_toShowHotkeys;
+        bool m_toCheckUpdates;
         int m_volume;
         int m_menuIndex;
     };

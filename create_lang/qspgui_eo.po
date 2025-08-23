@@ -301,3 +301,33 @@ msgstr "Buklokondiĉo ne estas trovita!"
 
 msgid "&Quicksave\tCtrl-S"
 msgstr "&Rapida savo\tCtrl-S"
+
+msgid "Update available"
+msgstr "Ĝisdatigo disponebla"
+
+msgid "Your app is already up to date."
+msgstr "Via aplikaĵo jam estas ĝisdatigita."
+
+msgid "Can't check the latest version!"
+msgstr "Ne eblas kontroli la plej novan version!"
+
+msgid "A new version (%s) is available!"
+msgstr "Nova versio (%s) disponeblas!"
+
+msgid "Click here to download the update"
+msgstr "Alklaku ĉi tie por elŝuti la ĝisdatigon"
+
+msgid "Release notes:"
+msgstr "Eldonnotoj:"
+
+msgid "Get the latest version"
+msgstr "Ricevu la plej novan version"
+
+msgid "Later"
+msgstr "Poste"
+
+msgid "Check for latest version"
+msgstr "Kontroli ĉu estas la plej nova versio"
+
+msgid "Check for updates on startup"
+msgstr "Kontroli ĝisdatigojn dum la starto"

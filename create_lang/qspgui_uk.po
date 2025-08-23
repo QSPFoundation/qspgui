@@ -301,3 +301,33 @@ msgstr "Умова циклу не знайдена!"
 
 msgid "&Quicksave\tCtrl-S"
 msgstr "&Швидке збереження\tCtrl-S"
+
+msgid "Update available"
+msgstr "Доступне оновлення"
+
+msgid "Your app is already up to date."
+msgstr "Ваш застосунок уже оновлений до останньої версії."
+
+msgid "Can't check the latest version!"
+msgstr "Не вдалося перевірити останню версію!"
+
+msgid "A new version (%s) is available!"
+msgstr "Доступна нова версія (%s)!"
+
+msgid "Click here to download the update"
+msgstr "Натисніть тут, щоб завантажити оновлення"
+
+msgid "Release notes:"
+msgstr "Примітки до випуску:"
+
+msgid "Get the latest version"
+msgstr "Отримати останню версію"
+
+msgid "Later"
+msgstr "Пізніше"
+
+msgid "Check for latest version"
+msgstr "Перевірити наявність останньої версії"
+
+msgid "Check for updates on startup"
+msgstr "Перевіряти оновлення під час запуску"

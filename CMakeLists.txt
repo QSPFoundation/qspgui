@@ -69,7 +69,7 @@ add_subdirectory("${CMAKE_BINARY_DIR}/qsp-src"
 )
 
 if (USE_INSTALLED_WX)
-	find_package(wxWidgets REQUIRED base core adv aui html)
+	find_package(wxWidgets REQUIRED base core adv aui html net)
 	include(${wxWidgets_USE_FILE})
 else()
 	# Download and unpack wxWidgets at configure time
@@ -91,7 +91,6 @@ else()
 	# Disable wxWidgets features we don't need
 	set(wxUSE_ACTIVEX OFF)
 	set(wxUSE_LIBTIFF OFF)
-	set(wxUSE_REGEX OFF)
 	set(wxUSE_SECRETSTORE OFF)
 	set(wxUSE_LIBSDL OFF)
 	set(wxUSE_LIBMSPACK OFF)
@@ -103,10 +102,6 @@ else()
 	set(wxUSE_PROPGRID OFF)
 	set(wxUSE_XRC OFF)
 	set(wxUSE_DEBUGREPORT OFF)
-	set(wxUSE_SOCKETS OFF)
-	set(wxUSE_PROTOCOL OFF)
-	set(wxUSE_URL OFF)
-	set(wxUSE_FS_INET OFF)
 	set(wxUSE_STC OFF)
 	set(wxUSE_WEBVIEW OFF)
 
@@ -152,6 +147,7 @@ set(QSPGUI_SOURCES
 	qspgui/msgdlg.cpp
 	qspgui/textbox.cpp
 	qspgui/transhelper.cpp
+	qspgui/updateappdialog.cpp
 	qspgui/sound/sound_engine.c
 )
 if (WIN32)
@@ -182,7 +178,7 @@ target_compile_definitions(qspgui PRIVATE _UNICODE)
 target_include_directories(qspgui PRIVATE qsp/bindings qsp/bindings/default)
 target_compile_options(qspgui PRIVATE ${PROJECT_COMPILER_FLAGS})
 target_link_options(qspgui PRIVATE ${PROJECT_LINKER_FLAGS})
-target_link_libraries(qspgui PRIVATE qsp wxbase wxcore wxadv wxaui wxhtml)
+target_link_libraries(qspgui PRIVATE qsp wxbase wxcore wxadv wxaui wxnet wxhtml)
 
 # Installation
 
@@ -224,8 +220,8 @@ install(TARGETS qspgui qsp
 		PUBLIC_HEADER DESTINATION ${HEADERDIR}
 		BUNDLE DESTINATION .)
 if (NOT USE_INSTALLED_WX)
-	set_target_properties(wxbase wxcore wxadv wxaui wxhtml PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
-	install(TARGETS wxbase wxcore wxadv wxaui wxhtml
+	set_target_properties(wxbase wxcore wxadv wxaui wxhtml wxnet PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
+	install(TARGETS wxbase wxcore wxadv wxaui wxhtml wxnet
 			COMPONENT Libs
 			RUNTIME DESTINATION ${BINDIR}
 			LIBRARY DESTINATION ${RLIBDIR}

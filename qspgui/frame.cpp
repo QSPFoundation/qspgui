@@ -34,6 +34,7 @@ BEGIN_EVENT_TABLE(QSPFrame, wxFrame)
     EVT_MENU(ID_SELECTFONTCOLOR, QSPFrame::OnSelectFontColor)
     EVT_MENU(ID_SELECTBACKCOLOR, QSPFrame::OnSelectBackColor)
     EVT_MENU(ID_SELECTLINKCOLOR, QSPFrame::OnSelectLinkColor)
+    EVT_MENU(ID_CHECKUPDATESONSTARTUP, QSPFrame::OnCheckUpdatesOnStartup)
     EVT_MENU(ID_SELECTLANG, QSPFrame::OnSelectLang)
     EVT_MENU(ID_TOGGLEWINMODE, QSPFrame::OnToggleWinMode)
     EVT_MENU(ID_TOGGLEOBJS, QSPFrame::OnToggleObjs)
@@ -48,6 +49,7 @@ BEGIN_EVENT_TABLE(QSPFrame, wxFrame)
     EVT_MENU(ID_VOLUME60, QSPFrame::OnVolume)
     EVT_MENU(ID_VOLUME80, QSPFrame::OnVolume)
     EVT_MENU(ID_VOLUME100, QSPFrame::OnVolume)
+    EVT_MENU(ID_CHECKUPDATES, QSPFrame::OnCheckUpdates)
     EVT_MENU(wxID_ABOUT, QSPFrame::OnAbout)
     EVT_HTML_LINK_CLICKED(ID_MAINDESC, QSPFrame::OnLinkClicked)
     EVT_HTML_LINK_CLICKED(ID_VARSDESC, QSPFrame::OnLinkClicked)
@@ -72,6 +74,8 @@ QSPFrame::QSPFrame(const wxString &configPath, QSPTranslationHelper *transHelper
     m_transHelper(transHelper)
 {
     wxRegisterId(ID_DUMMY);
+    Bind(wxEVT_WEBREQUEST_STATE, &QSPFrame::OnVersionRequestState, this);
+
     SetIcon(wxICON(logo));
     DragAcceptFiles(true);
     m_timer = new wxTimer(this, ID_TIMER);
@@ -130,6 +134,7 @@ QSPFrame::QSPFrame(const wxString &configPath, QSPTranslationHelper *transHelper
     m_settingsMenu->Append(ID_FONT, wxT("-"), fontMenu);
     m_settingsMenu->Append(ID_COLORS, wxT("-"), colorsMenu);
     m_settingsMenu->Append(ID_VOLUME, wxT("-"), volumeMenu);
+    m_settingsMenu->AppendCheckItem(ID_CHECKUPDATESONSTARTUP, wxT("-"));
     m_settingsMenu->AppendSeparator();
     wxMenuItem *settingsWinModeItem = new wxMenuItem(m_settingsMenu, ID_TOGGLEWINMODE, wxT("-"));
     settingsWinModeItem->SetBitmap(wxBitmap(windowmode_xpm));
@@ -138,6 +143,8 @@ QSPFrame::QSPFrame(const wxString &configPath, QSPTranslationHelper *transHelper
     m_settingsMenu->Append(ID_SELECTLANG, wxT("-"));
     // ------------
     wxMenu *helpMenu = new wxMenu;
+    helpMenu->Append(ID_CHECKUPDATES, wxT("-"));
+    helpMenu->AppendSeparator();
     wxMenuItem *helpAboutItem = new wxMenuItem(helpMenu, wxID_ABOUT, wxT("-"));
     helpAboutItem->SetBitmap(wxBitmap(about_xpm));
     helpMenu->Append(helpAboutItem);
@@ -191,7 +198,7 @@ void QSPFrame::SaveSettings()
     bool isMaximized;
     if (IsFullScreen()) ShowFullScreen(false);
     if (IsIconized()) Iconize(false);
-    if (isMaximized = IsMaximized()) Maximize(false);
+    if ((isMaximized = IsMaximized())) Maximize(false);
     wxFileConfig cfg(wxEmptyString, wxEmptyString, m_configPath);
     cfg.Write(wxT("Colors/BackColor"), m_backColor.Blue() << 16 | m_backColor.Green() << 8 | m_backColor.Red());
     cfg.Write(wxT("Colors/FontColor"), m_fontColor.Blue() << 16 | m_fontColor.Green() << 8 | m_fontColor.Red());
@@ -202,6 +209,7 @@ void QSPFrame::SaveSettings()
     cfg.Write(wxT("General/Volume"), m_volume);
     cfg.Write(wxT("General/ShowHotkeys"), m_toShowHotkeys);
     cfg.Write(wxT("General/Panels"), m_manager->SavePerspective());
+    cfg.Write(wxT("General/CheckUpdates"), m_toCheckUpdates);
     m_transHelper->Save(cfg, wxT("General/Language"));
     GetPosition(&x, &y);
     GetClientSize(&w, &h);
@@ -245,6 +253,7 @@ void QSPFrame::LoadSettings()
         wxT("name=input;state=2099196;dir=3;layer=1;row=0;pos=0;prop=100000;bestw=832;besth=22;minw=50;minh=20;maxw=-1;maxh=-1;floatx=-1;floaty=-1;floatw=-1;floath=-1|") \
         wxT("dock_size(5,0,0)=22|dock_size(2,0,0)=215|dock_size(3,0,0)=204|dock_size(3,1,0)=41|"));
     cfg.Read(wxT("General/Panels"), &panels);
+    cfg.Read(wxT("General/CheckUpdates"), &m_toCheckUpdates, true);
     m_transHelper->Load(cfg, wxT("General/Language"));
     // -------------------------------------------------
     SetOverallVolume(m_volume);
@@ -259,6 +268,7 @@ void QSPFrame::LoadSettings()
     }
     RefreshUI();
     m_settingsMenu->Check(ID_USEFONTSIZE, m_toUseFontSize);
+    m_settingsMenu->Check(ID_CHECKUPDATESONSTARTUP, m_toCheckUpdates);
     m_manager->LoadPerspective(panels);
     m_manager->RestoreMaximizedPane();
     // Check for correct position
@@ -562,8 +572,10 @@ void QSPFrame::ReCreateGUI()
     menuBar->SetLabel(ID_VOLUME60, _("60%\tAlt-4"));
     menuBar->SetLabel(ID_VOLUME80, _("80%\tAlt-5"));
     menuBar->SetLabel(ID_VOLUME100, _("Initial volume\tAlt-6"));
+    menuBar->SetLabel(ID_CHECKUPDATESONSTARTUP, _("Check for updates on startup"));
     menuBar->SetLabel(ID_TOGGLEWINMODE, _("Window / Fullscreen &mode\tAlt-Enter"));
     menuBar->SetLabel(ID_SELECTLANG, _("Select &language...\tAlt-L"));
+    menuBar->SetLabel(ID_CHECKUPDATES, _("Check for latest version"));
     menuBar->SetLabel(wxID_ABOUT, _("&About...\tCtrl-H"));
     // --------------------------------------
     m_manager->GetPane(wxT("imgview")).Caption(_("Preview"));
@@ -770,6 +782,60 @@ void QSPFrame::SaveGameState(const wxString &fullPath)
     m_savedGamePath = fullPath;
 }
 
+void QSPFrame::CheckLatestVersion(int type)
+{
+    wxWebRequest verRequest = wxWebSession::GetDefault().CreateRequest(this, QSP_LATESTVERAPI, type);
+
+    verRequest.Start();
+}
+
+void QSPFrame::ProcessVersionResult(const wxString& versionInfo, int type)
+{
+    bool isSuccess = false;
+
+    if (!versionInfo.IsEmpty())
+    {
+        wxRegEx versionRegEx("\"name\"\\s*:\\s*\"((?:[^\"\\\\]|\\\\.)*)\"");
+        if (versionRegEx.Matches(versionInfo))
+        {
+            isSuccess = true;
+            wxString latestVersion = versionRegEx.GetMatch(versionInfo, 1);
+            if (latestVersion > QSP_VER)
+            {
+                wxString releaseNotes;
+                wxRegEx releaseNotesRegEx("\"body\"\\s*:\\s*\"((?:[^\"\\\\]|\\\\.)*)\"");
+                if (releaseNotesRegEx.Matches(versionInfo))
+                {
+                    releaseNotes = releaseNotesRegEx.GetMatch(versionInfo, 1);
+                    releaseNotes.Replace("\\r\\n", "\n");
+                    releaseNotes.Replace("\\n", "\n");
+                }
+
+                UpdateAppDialog dialog(this, _("Update available"),
+                    latestVersion, releaseNotes, QSP_LATESTVERPAGE);
+                dialog.CenterOnParent();
+                if (dialog.ShowModal() == wxID_OK)
+                    wxLaunchDefaultBrowser(QSP_LATESTVERPAGE);
+            }
+            else if (type == UPDATE_SHOW_ALL_RESULTS)
+            {
+                wxMessageDialog dlgMsg(this,
+                    _("Your app is already up to date."),
+                    _("Info"), wxOK | wxCENTRE | wxICON_INFORMATION);
+                dlgMsg.ShowModal();
+            }
+        }
+    }
+
+    if (!isSuccess && type == UPDATE_SHOW_ALL_RESULTS)
+    {
+        wxMessageDialog dlgMsg(this,
+            _("Can't check the latest version!"),
+            _("Error"), wxOK | wxCENTRE | wxICON_ERROR);
+        dlgMsg.ShowModal();
+    }
+}
+
 void QSPFrame::OnInit(wxInitEvent& event)
 {
     OpenGameFile(event.GetInitString());
@@ -797,6 +863,20 @@ void QSPFrame::OnMenu(wxCommandEvent& event)
 void QSPFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 {
     Close();
+}
+
+void QSPFrame::OnVersionRequestState(wxWebRequestEvent& event)
+{
+    switch (event.GetState())
+    {
+        case wxWebRequest::State_Completed:
+            ProcessVersionResult(event.GetResponse().AsString(), event.GetId());
+            break;
+        case wxWebRequest::State_Failed:
+        case wxWebRequest::State_Unauthorized:
+            ProcessVersionResult(wxEmptyString, event.GetId());
+            break;
+    }
 }
 
 void QSPFrame::OnOpenGame(wxCommandEvent& WXUNUSED(event))
@@ -939,6 +1019,11 @@ void QSPFrame::OnSelectLinkColor(wxCommandEvent& WXUNUSED(event))
     }
 }
 
+void QSPFrame::OnCheckUpdatesOnStartup(wxCommandEvent& WXUNUSED(event))
+{
+    m_toCheckUpdates = !m_toCheckUpdates;
+}
+
 void QSPFrame::OnSelectLang(wxCommandEvent& WXUNUSED(event))
 {
     if (m_transHelper->AskUserForLanguage()) ReCreateGUI();
@@ -998,6 +1083,11 @@ void QSPFrame::OnToggleHotkeys(wxCommandEvent& WXUNUSED(event))
 {
     m_toShowHotkeys = !m_toShowHotkeys;
     if (m_toProcessEvents) QSPCallbacks::RefreshInt(QSP_FALSE, QSP_FALSE);
+}
+
+void QSPFrame::OnCheckUpdates(wxCommandEvent& WXUNUSED(event))
+{
+    CheckLatestVersion(UPDATE_SHOW_ALL_RESULTS);
 }
 
 void QSPFrame::OnAbout(wxCommandEvent& WXUNUSED(event))

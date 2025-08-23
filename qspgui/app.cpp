@@ -80,6 +80,11 @@ void QSPApp::InitUI()
     wxInitEvent initEvent;
     if (GetAutoRunEvent(initEvent))
         wxPostEvent(frame, initEvent);
+    else
+    {
+        if (frame->ToCheckUpdates())
+            frame->CheckLatestVersion(UPDATE_SHOW_ONLY_NEW);
+    }
 }
 
 bool QSPApp::GetAutoRunEvent(wxInitEvent& initEvent)

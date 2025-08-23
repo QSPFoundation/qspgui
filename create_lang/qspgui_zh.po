@@ -14,16 +14,16 @@ msgstr ""
 "X-Generator: Poedit 3.4.4\n"
 
 msgid "&About...\tCtrl-H"
-msgstr "&关于… Ctrl-H"
+msgstr "&关于…\tCtrl-H"
 
 msgid "&Actions\tCtrl-2"
-msgstr "&动作 Ctrl-2"
+msgstr "&动作\tCtrl-2"
 
 msgid "&Always use selected font size"
 msgstr "&总是使用选定的字体大小"
 
 msgid "&Captions\tCtrl-5"
-msgstr "&标题 Ctrl-5"
+msgstr "&标题\tCtrl-5"
 
 msgid "&Colors"
 msgstr "&颜色"
@@ -38,31 +38,31 @@ msgid "&Help"
 msgstr "&帮助"
 
 msgid "&Hotkeys for actions\tCtrl-6"
-msgstr "&动作的热键 Ctrl-6"
+msgstr "&动作的热键\tCtrl-6"
 
 msgid "&Input area\tCtrl-4"
-msgstr "&输入区域 Ctrl-4"
+msgstr "&输入区域\tCtrl-4"
 
 msgid "&Objects\tCtrl-1"
-msgstr "&对象 Ctrl-1"
+msgstr "&对象\tCtrl-1"
 
 msgid "&Open game...\tAlt-O"
-msgstr "&打开游戏… Alt-O"
+msgstr "&打开游戏…\tAlt-O"
 
 msgid "&Open saved game...\tCtrl-O"
-msgstr "&打开已保存的游戏… Ctrl-O"
+msgstr "&打开已保存的游戏…\tCtrl-O"
 
 msgid "&Quest"
 msgstr "&任务"
 
 msgid "&Quicksave\tCtrl-S"
-msgstr "&快速保存 Ctrl-S"
+msgstr "&快速保存\tCtrl-S"
 
 msgid "&Quit\tAlt-X"
-msgstr "&退出 Alt-X"
+msgstr "&退出\tAlt-X"
 
 msgid "&Restart game\tAlt-N"
-msgstr "&重新开始游戏 Alt-N"
+msgstr "&重新开始游戏\tAlt-N"
 
 msgid "&Save game..."
 msgstr "&保存游戏…"
@@ -86,7 +86,7 @@ msgid "80%\tAlt-5"
 msgstr "80%\tAlt-5"
 
 msgid "A&dditional desc\tCtrl-3"
-msgstr "&附加描述 Ctrl-3"
+msgstr "&附加描述\tCtrl-3"
 
 msgid "Actions"
 msgstr "动作"
@@ -146,7 +146,7 @@ msgid "Info"
 msgstr "信息"
 
 msgid "Initial volume\tAlt-6"
-msgstr "初始音量 Alt-6"
+msgstr "初始音量\tAlt-6"
 
 msgid "Input area"
 msgstr "输入区域"
@@ -189,7 +189,7 @@ msgid "Loop condition not found!"
 msgstr "未找到循环条件！"
 
 msgid "No sound\tAlt-1"
-msgstr "无声音 Alt-1"
+msgstr "无声音\tAlt-1"
 
 msgid "OK"
 msgstr "确定"
@@ -213,13 +213,13 @@ msgid "Saved game files (*.sav)|*.sav"
 msgstr "已保存的游戏文件 (.sav)|.sav"
 
 msgid "Select &background color...\tAlt-B"
-msgstr "选择 &背景颜色… Alt-B"
+msgstr "选择 &背景颜色…\tAlt-B"
 
 msgid "Select &font...\tAlt-F"
-msgstr "选择&字体… Alt-F"
+msgstr "选择&字体…\tAlt-F"
 
 msgid "Select &language...\tAlt-L"
-msgstr "选择 &语言… Alt-L"
+msgstr "选择 &语言…\tAlt-L"
 
 msgid "Select background color"
 msgstr "选择背景颜色"
@@ -231,7 +231,7 @@ msgid "Select font"
 msgstr "选择字体"
 
 msgid "Select font &color...\tAlt-C"
-msgstr "选择字体 &颜色… Alt-C"
+msgstr "选择字体 &颜色…\tAlt-C"
 
 msgid "Select font color"
 msgstr "选择字体颜色"
@@ -240,7 +240,7 @@ msgid "Select game file"
 msgstr "选择游戏文件"
 
 msgid "Select l&inks color...\tAlt-I"
-msgstr "选择 &链接颜色… Alt-I"
+msgstr "选择 &链接颜色…\tAlt-I"
 
 msgid "Select language"
 msgstr "选择语言"
@@ -291,7 +291,7 @@ msgstr ""
 "GUI编译时间：%s"
 
 msgid "Window / Fullscreen &mode\tAlt-Enter"
-msgstr "窗口 / 全屏 &模式 Alt-Enter"
+msgstr "窗口 / 全屏 &模式\tAlt-Enter"
 
 msgid "[end] not found!"
 msgstr "未找到 [结束]"
@@ -301,3 +301,33 @@ msgstr "执行动作时"
 
 msgid "on visit"
 msgstr "访问时"
+
+msgid "Update available"
+msgstr "有可用更新"
+
+msgid "Your app is already up to date."
+msgstr "您的应用已是最新版本。"
+
+msgid "Can't check the latest version!"
+msgstr "无法检查最新版本！"
+
+msgid "A new version (%s) is available!"
+msgstr "有新版本（%s）可用！"
+
+msgid "Click here to download the update"
+msgstr "点击此处下载更新"
+
+msgid "Release notes:"
+msgstr "更新说明："
+
+msgid "Get the latest version"
+msgstr "获取最新版本"
+
+msgid "Later"
+msgstr "稍后"
+
+msgid "Check for latest version"
+msgstr "检查最新版本"
+
+msgid "Check for updates on startup"
+msgstr "启动时检查更新"

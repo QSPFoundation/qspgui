@@ -301,3 +301,33 @@ msgstr "Loop condition not found!"
 
 msgid "&Quicksave\tCtrl-S"
 msgstr "&Quicksave\tCtrl-S"
+
+msgid "Update available"
+msgstr "Update available"
+
+msgid "Your app is already up to date."
+msgstr "Your app is already up to date."
+
+msgid "Can't check the latest version!"
+msgstr "Can't check the latest version!"
+
+msgid "A new version (%s) is available!"
+msgstr "A new version (%s) is available!"
+
+msgid "Click here to download the update"
+msgstr "Click here to download the update"
+
+msgid "Release notes:"
+msgstr "Release notes:"
+
+msgid "Get the latest version"
+msgstr "Get the latest version"
+
+msgid "Later"
+msgstr "Later"
+
+msgid "Check for latest version"
+msgstr "Check for latest version"
+
+msgid "Check for updates on startup"
+msgstr "Check for updates on startup"

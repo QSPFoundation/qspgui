@@ -301,3 +301,33 @@ msgstr "Условие цикла не найдено!"
 
 msgid "&Quicksave\tCtrl-S"
 msgstr "&Быстрое сохранение\tCtrl-S"
+
+msgid "Update available"
+msgstr "Доступно обновление"
+
+msgid "Your app is already up to date."
+msgstr "Приложение уже обновлено до последней версии."
+
+msgid "Can't check the latest version!"
+msgstr "Не удалось проверить последнюю версию!"
+
+msgid "A new version (%s) is available!"
+msgstr "Доступна новая версия (%s)!"
+
+msgid "Click here to download the update"
+msgstr "Нажмите здесь, чтобы загрузить обновление"
+
+msgid "Release notes:"
+msgstr "Примечания к выпуску:"
+
+msgid "Get the latest version"
+msgstr "Получить последнюю версию"
+
+msgid "Later"
+msgstr "Позже"
+
+msgid "Check for latest version"
+msgstr "Проверить обновление"
+
+msgid "Check for updates on startup"
+msgstr "Проверять обновления при запуске"

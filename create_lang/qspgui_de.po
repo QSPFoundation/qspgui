@@ -301,3 +301,33 @@ msgstr "Schleifenbedingung nicht gefunden!"
 
 msgid "&Quicksave\tCtrl-S"
 msgstr "&Die schnelle Erhaltung\tCtrl-S"
+
+msgid "Update available"
+msgstr "Update verfügbar"
+
+msgid "Your app is already up to date."
+msgstr "Ihre App ist bereits auf dem neuesten Stand."
+
+msgid "Can't check the latest version!"
+msgstr "Die neueste Version konnte nicht überprüft werden!"
+
+msgid "A new version (%s) is available!"
+msgstr "Eine neue Version (%s) ist verfügbar!"
+
+msgid "Click here to download the update"
+msgstr "Hier klicken, um das Update herunterzuladen"
+
+msgid "Release notes:"
+msgstr "Versionshinweise:"
+
+msgid "Get the latest version"
+msgstr "Neueste Version herunterladen"
+
+msgid "Later"
+msgstr "Später"
+
+msgid "Check for latest version"
+msgstr "Nach neuester Version suchen"
+
+msgid "Check for updates on startup"
+msgstr "Beim Start nach Updates suchen"

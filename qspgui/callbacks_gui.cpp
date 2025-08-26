@@ -87,7 +87,6 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
     QSP_BIGINT numVal;
     QSPString strVal;
     bool toScroll, canSave;
-    QSPListItem items[MAX_LIST_ITEMS];
     if (m_frame->ToQuit()) return 0;
     // -------------------------------
     toScroll = !(QSPGetNumVarValue(QSP_STATIC_STR(QSP_FMT("DISABLESCROLL")), 0, &numVal) && numVal);
@@ -114,6 +113,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
     m_frame->GetActions()->SetToShowNums(m_frame->ToShowHotkeys());
     if (QSPIsActionsChanged())
     {
+        QSPListItem items[MAX_LIST_ITEMS];
         int i, actionsCount = QSPGetActions(items, MAX_LIST_ITEMS);
         m_frame->GetActions()->BeginItems();
         for (i = 0; i < actionsCount; ++i)
@@ -124,10 +124,11 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
     m_frame->GetObjects()->SetIsHtml(m_isHtml);
     if (QSPIsObjectsChanged())
     {
+        QSPObjectItem items[MAX_LIST_ITEMS];
         int i, objectsCount = QSPGetObjects(items, MAX_LIST_ITEMS);
         m_frame->GetObjects()->BeginItems();
         for (i = 0; i < objectsCount; ++i)
-            m_frame->GetObjects()->AddItem(qspToWxString(items[i].Image), qspToWxString(items[i].Name));
+            m_frame->GetObjects()->AddItem(qspToWxString(items[i].Image), qspToWxString(items[i].Title));
         m_frame->GetObjects()->EndItems();
     }
     m_frame->GetObjects()->SetSelection(QSPGetSelObjectIndex());

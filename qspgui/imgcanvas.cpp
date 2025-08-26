@@ -52,7 +52,7 @@ bool QSPImgCanvas::OpenFile(const wxString& fullPath)
 
     if (wxFileExists(fullPath))
     {
-        if (m_isAnim = m_animation->LoadFile(fullPath))
+        if ((m_isAnim = m_animation->LoadFile(fullPath)))
         {
             m_animation->Show();
             ret = true;

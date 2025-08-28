@@ -810,12 +810,16 @@ void QSPFrame::ProcessVersionResult(const wxString& versionInfo, int type)
                     releaseNotes.Replace("\\r\\n", "\n");
                     releaseNotes.Replace("\\n", "\n");
                 }
+                wxString releaseUrl(QSP_LATESTVERPAGE);
+                wxRegEx releaseUrlRegEx("\"html_url\"\\s*:\\s*\"((?:[^\"\\\\]|\\\\.)*)\"");
+                if (releaseUrlRegEx.Matches(versionInfo))
+                    releaseUrl = releaseUrlRegEx.GetMatch(versionInfo, 1);
 
                 UpdateAppDialog dialog(this, _("Update available"),
-                    latestVersion, releaseNotes, QSP_LATESTVERPAGE);
+                    latestVersion, releaseNotes, releaseUrl);
                 dialog.CenterOnParent();
                 if (dialog.ShowModal() == wxID_OK)
-                    wxLaunchDefaultBrowser(QSP_LATESTVERPAGE);
+                    wxLaunchDefaultBrowser(releaseUrl);
             }
             else if (type == UPDATE_SHOW_ALL_RESULTS)
             {

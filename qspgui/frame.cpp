@@ -19,6 +19,16 @@
 #include "comtools.h"
 #include "callbacks_gui.h"
 
+#include "icons/logo.xpm"
+#include "icons/logo_big.xpm"
+#include "icons/open.xpm"
+#include "icons/new.xpm"
+#include "icons/exit.xpm"
+#include "icons/statusopen.xpm"
+#include "icons/statussave.xpm"
+#include "icons/windowmode.xpm"
+#include "icons/about.xpm"
+
 BEGIN_EVENT_TABLE(QSPFrame, wxFrame)
     EVT_INIT(QSPFrame::OnInit)
     EVT_CLOSE(QSPFrame::OnClose)

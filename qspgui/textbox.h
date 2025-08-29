@@ -21,7 +21,7 @@
     #include <wx/wx.h>
     #include <wx/fontmap.h>
     #include <wx/html/htmlwin.h>
-    #include "path_provider.h"
+    #include "pathprovider.h"
 
     class QSPTextBox : public wxHtmlWindow
     {

@@ -21,7 +21,7 @@
     #include <wx/wx.h>
     #include <wx/statline.h>
     #include "textbox.h"
-    #include "path_provider.h"
+    #include "pathprovider.h"
 
     enum
     {

@@ -35,18 +35,8 @@
     #include "listbox.h"
     #include "imgcanvas.h"
     #include "initevent.h"
-    #include "path_provider.h"
+    #include "pathprovider.h"
     #include "updateappdialog.h"
-
-    #include "icons/logo.xpm"
-    #include "icons/logo_big.xpm"
-    #include "icons/open.xpm"
-    #include "icons/new.xpm"
-    #include "icons/exit.xpm"
-    #include "icons/statusopen.xpm"
-    #include "icons/statussave.xpm"
-    #include "icons/windowmode.xpm"
-    #include "icons/about.xpm"
 
     #include "qspgui_config.h"
 

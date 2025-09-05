@@ -670,14 +670,14 @@ void QSPFrame::CallPaneFunc(wxWindowID id, QSP_BOOL toShow) const
 {
     switch (id)
     {
+    case ID_VARSDESC:
+        QSPShowWindow(QSP_WIN_VARS, toShow);
+        break;
     case ID_ACTIONS:
         QSPShowWindow(QSP_WIN_ACTS, toShow);
         break;
     case ID_OBJECTS:
         QSPShowWindow(QSP_WIN_OBJS, toShow);
-        break;
-    case ID_VARSDESC:
-        QSPShowWindow(QSP_WIN_VARS, toShow);
         break;
     case ID_INPUT:
         QSPShowWindow(QSP_WIN_INPUT, toShow);

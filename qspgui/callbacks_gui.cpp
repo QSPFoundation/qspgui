@@ -84,34 +84,36 @@ int QSPCallbacks::SetTimer(int msecs)
 
 int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
 {
+    int changedState;
     QSP_BIGINT numVal;
     QSPString strVal;
     bool toScroll, canSave;
     if (m_frame->ToQuit()) return 0;
+    changedState = QSPGetWindowsChangedState();
     // -------------------------------
     toScroll = !(QSPGetNumVarValue(QSP_STATIC_STR(QSP_FMT("DISABLESCROLL")), 0, &numVal) && numVal);
     canSave = !(QSPGetNumVarValue(QSP_STATIC_STR(QSP_FMT("NOSAVE")), 0, &numVal) && numVal);
     m_isHtml = QSPGetNumVarValue(QSP_STATIC_STR(QSP_FMT("USEHTML")), 0, &numVal) && numVal;
     // -------------------------------
-    m_frame->GetVars()->SetIsHtml(m_isHtml);
-    if (QSPIsVarsDescChanged())
-    {
-        QSPString varsDesc = QSPGetVarsDesc();
-        // we always try to scroll additional description
-        m_frame->GetVars()->SetText(qspToWxString(varsDesc), toScroll);
-    }
-    // -------------------------------
     m_frame->GetDesc()->SetIsHtml(m_isHtml);
-    if (QSPIsMainDescChanged())
+    if (changedState & QSP_WIN_MAIN)
     {
         QSPString mainDesc = QSPGetMainDesc();
         // we don't scroll main description if it's completely updated (isNewDesc is true)
         m_frame->GetDesc()->SetText(qspToWxString(mainDesc), !isNewDesc && toScroll);
     }
     // -------------------------------
+    m_frame->GetVars()->SetIsHtml(m_isHtml);
+    if (changedState & QSP_WIN_VARS)
+    {
+        QSPString varsDesc = QSPGetVarsDesc();
+        // we always try to scroll additional description
+        m_frame->GetVars()->SetText(qspToWxString(varsDesc), toScroll);
+    }
+    // -------------------------------
     m_frame->GetActions()->SetIsHtml(m_isHtml);
     m_frame->GetActions()->SetToShowNums(m_frame->ToShowHotkeys());
-    if (QSPIsActionsChanged())
+    if (changedState & QSP_WIN_ACTS)
     {
         QSPListItem items[MAX_LIST_ITEMS];
         int i, actionsCount = QSPGetActions(items, MAX_LIST_ITEMS);
@@ -122,7 +124,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
     }
     m_frame->GetActions()->SetSelection(QSPGetSelActionIndex());
     m_frame->GetObjects()->SetIsHtml(m_isHtml);
-    if (QSPIsObjectsChanged())
+    if (changedState & QSP_WIN_OBJS)
     {
         QSPObjectItem items[MAX_LIST_ITEMS];
         int i, objectsCount = QSPGetObjects(items, MAX_LIST_ITEMS);
@@ -205,12 +207,12 @@ int QSPCallbacks::PlayFile(QSPString file, int volume)
 int QSPCallbacks::ShowPane(int type, QSP_BOOL toShow)
 {
     if (m_frame->ToQuit()) return 0;
+    if (type & QSP_WIN_VARS)
+        m_frame->ShowPane(ID_VARSDESC, toShow != QSP_FALSE);
     if (type & QSP_WIN_ACTS)
         m_frame->ShowPane(ID_ACTIONS, toShow != QSP_FALSE);
     if (type & QSP_WIN_OBJS)
         m_frame->ShowPane(ID_OBJECTS, toShow != QSP_FALSE);
-    if (type & QSP_WIN_VARS)
-        m_frame->ShowPane(ID_VARSDESC, toShow != QSP_FALSE);
     if (type & QSP_WIN_INPUT)
         m_frame->ShowPane(ID_INPUT, toShow != QSP_FALSE);
     if (type & QSP_WIN_VIEW)

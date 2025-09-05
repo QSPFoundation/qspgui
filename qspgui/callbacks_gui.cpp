@@ -205,24 +205,16 @@ int QSPCallbacks::PlayFile(QSPString file, int volume)
 int QSPCallbacks::ShowPane(int type, QSP_BOOL toShow)
 {
     if (m_frame->ToQuit()) return 0;
-    switch (type)
-    {
-    case QSP_WIN_ACTS:
+    if (type & QSP_WIN_ACTS)
         m_frame->ShowPane(ID_ACTIONS, toShow != QSP_FALSE);
-        break;
-    case QSP_WIN_OBJS:
+    if (type & QSP_WIN_OBJS)
         m_frame->ShowPane(ID_OBJECTS, toShow != QSP_FALSE);
-        break;
-    case QSP_WIN_VARS:
+    if (type & QSP_WIN_VARS)
         m_frame->ShowPane(ID_VARSDESC, toShow != QSP_FALSE);
-        break;
-    case QSP_WIN_INPUT:
+    if (type & QSP_WIN_INPUT)
         m_frame->ShowPane(ID_INPUT, toShow != QSP_FALSE);
-        break;
-    case QSP_WIN_VIEW:
+    if (type & QSP_WIN_VIEW)
         m_frame->ShowPane(ID_VIEWPIC, toShow != QSP_FALSE);
-        break;
-    }
     return 0;
 }
 

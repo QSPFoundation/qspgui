@@ -27,7 +27,7 @@ wxInitEvent::wxInitEvent()
 }
 
 wxInitEvent::wxInitEvent(const wxInitEvent& event)
+    : wxEvent(event)
 {
-    m_eventType = event.m_eventType;
     m_initString = event.m_initString;
 }

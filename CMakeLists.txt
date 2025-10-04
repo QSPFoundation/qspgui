@@ -73,7 +73,7 @@ else()
 		SUBBUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxWidgets-download"
 		SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxWidgets-src"
 		BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxWidgets-build"
-		PATCH_COMMAND git apply --check --apply --ignore-whitespace "${CMAKE_CURRENT_SOURCE_DIR}/build_wx/wxPatch.diff"
+		PATCH_COMMAND git checkout --recurse-submodules -- . && git apply --check --apply --ignore-whitespace "${CMAKE_CURRENT_SOURCE_DIR}/build_wx/wxPatch.diff"
 	)
 	# Disable wxWidgets features we don't need
 	set(wxUSE_ACTIVEX OFF)

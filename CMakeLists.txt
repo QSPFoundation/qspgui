@@ -11,6 +11,7 @@ project(qspgui VERSION ${CMAKE_APP_VERSION} HOMEPAGE_URL "https://qsp.org")
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
+include(FetchContent)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN ON)
@@ -49,45 +50,31 @@ else()
 	message(FATAL_ERROR "Compiler is not supported")
 endif()
 
-# Download and unpack qsp at configure time
-configure_file(CMakeLists-qsp.txt.in "${CMAKE_BINARY_DIR}/qsp-download/CMakeLists.txt")
-execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-		WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/qsp-download"
+FetchContent_Declare(qsp-custom
+		GIT_REPOSITORY https://github.com/QSPFoundation/qsp.git
+		GIT_TAG master
+		#GIT_SHALLOW true # it works only with branch names and tags
+		GIT_PROGRESS true
+		SUBBUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-download"
+		SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-src"
+		BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-build"
 )
-execute_process(COMMAND "${CMAKE_COMMAND}" --build .
-		WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/qsp-download"
-)
-
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(qsp_force_shared_crt ON CACHE BOOL "" FORCE)
-
-# Add qsp directly to our build
-set(CMAKE_POLICY_DEFAULT_CMP0063 NEW)
-set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
-add_subdirectory("${CMAKE_BINARY_DIR}/qsp-src"
-				 "${CMAKE_BINARY_DIR}/qsp-build"
-)
+FetchContent_MakeAvailable(qsp-custom)
 
 if (USE_INSTALLED_WX)
 	find_package(wxWidgets REQUIRED base core adv aui html net)
 	include(${wxWidgets_USE_FILE})
 else()
-	# Download and unpack wxWidgets at configure time
-	configure_file(CMakeLists-wxWidgets.txt.in "${CMAKE_BINARY_DIR}/wxWidgets-download/CMakeLists.txt")
-	execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-			WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/wxWidgets-download"
+	FetchContent_Declare(wxWidgets-custom
+		GIT_REPOSITORY https://github.com/wxWidgets/wxWidgets.git
+		GIT_TAG ace3d4d936115f4b34a0d8c240a29f5cd7c23743
+		#GIT_SHALLOW true # it works only with branch names and tags
+		GIT_PROGRESS true
+		SUBBUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxWidgets-download"
+		SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxWidgets-src"
+		BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/wxWidgets-build"
+		PATCH_COMMAND git apply --check --apply --ignore-whitespace "${CMAKE_CURRENT_SOURCE_DIR}/build_wx/wxPatch.diff"
 	)
-	execute_process(COMMAND "${CMAKE_COMMAND}" --build .
-			WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/wxWidgets-download"
-	)
-	# Patch wxWidgets
-	execute_process(COMMAND git checkout --recurse-submodules -- .
-			WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/wxWidgets-src"
-	)
-	execute_process(COMMAND git apply --check --apply --ignore-whitespace "${CMAKE_CURRENT_SOURCE_DIR}/build_wx/wxPatch.diff"
-			WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/wxWidgets-src"
-	)
-
 	# Disable wxWidgets features we don't need
 	set(wxUSE_ACTIVEX OFF)
 	set(wxUSE_LIBTIFF OFF)
@@ -120,15 +107,7 @@ else()
 		set(wxBUILD_USE_STATIC_RUNTIME OFF)
 	endif()
 
-	# For Windows: Prevent overriding the parent project's compiler/linker settings
-	set(wxWidgets_force_shared_crt ON CACHE BOOL "" FORCE)
-
-	# Add wxWidgets directly to our build
-	set(CMAKE_POLICY_DEFAULT_CMP0063 NEW)
-	set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
-	add_subdirectory("${CMAKE_BINARY_DIR}/wxWidgets-src"
-					 "${CMAKE_BINARY_DIR}/wxWidgets-build"
-	)
+	FetchContent_MakeAvailable(wxWidgets-custom)
 endif()
 
 configure_file(qspgui_config.h.cmakein qspgui_config.h @ONLY)

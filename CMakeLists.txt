@@ -23,8 +23,6 @@ set(CMAKE_CXX_STANDARD 11)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-	set(PROJECT_COMPILER_FLAGS "-Wall")
-	set(PROJECT_LINKER_FLAGS "")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wno-char-subscripts -Wno-unused-variable")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -D_DEBUG -DDEBUG")
@@ -32,16 +30,12 @@ if ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
 	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -DNDEBUG")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast -DNDEBUG")
 elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
-	set(PROJECT_COMPILER_FLAGS "/W4")
-	set(PROJECT_LINKER_FLAGS "")
 	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /D_DEBUG /DDEBUG")
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_DEBUG /DDEBUG")
 	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /O2 /DNDEBUG")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2 /DNDEBUG")
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "AppleClang")
-	set(PROJECT_COMPILER_FLAGS "")
-	set(PROJECT_LINKER_FLAGS "")
 	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -D_DEBUG -DDEBUG")
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -D_DEBUG -DDEBUG")
 	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -Ofast -DNDEBUG")
@@ -51,13 +45,13 @@ else()
 endif()
 
 FetchContent_Declare(qsp-custom
-		GIT_REPOSITORY https://github.com/QSPFoundation/qsp.git
-		GIT_TAG master
-		#GIT_SHALLOW true # it works only with branch names and tags
-		GIT_PROGRESS true
-		SUBBUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-download"
-		SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-src"
-		BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-build"
+	GIT_REPOSITORY https://github.com/QSPFoundation/qsp.git
+	GIT_TAG master
+	#GIT_SHALLOW true # it works only with branch names and tags
+	GIT_PROGRESS true
+	SUBBUILD_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-download"
+	SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-src"
+	BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/qsp-build"
 )
 FetchContent_MakeAvailable(qsp-custom)
 
@@ -154,9 +148,6 @@ else()
 endif()
 
 target_compile_definitions(qspgui PRIVATE _UNICODE)
-target_include_directories(qspgui PRIVATE qsp/bindings qsp/bindings/default)
-target_compile_options(qspgui PRIVATE ${PROJECT_COMPILER_FLAGS})
-target_link_options(qspgui PRIVATE ${PROJECT_LINKER_FLAGS})
 target_link_libraries(qspgui PRIVATE qsp wxbase wxcore wxadv wxaui wxnet wxhtml)
 
 # Installation
@@ -189,8 +180,8 @@ else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
 
-set_target_properties(qspgui qsp PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
-install(TARGETS qspgui qsp
+set_target_properties(qspgui PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
+install(TARGETS qspgui
 		COMPONENT Main
 		RUNTIME DESTINATION ${BINDIR}
 		LIBRARY DESTINATION ${RLIBDIR}
@@ -198,6 +189,13 @@ install(TARGETS qspgui qsp
 		PRIVATE_HEADER DESTINATION ${HEADERDIR}
 		PUBLIC_HEADER DESTINATION ${HEADERDIR}
 		BUNDLE DESTINATION .)
+
+install(IMPORTED_RUNTIME_ARTIFACTS qspgui
+		COMPONENT Main
+		RUNTIME DESTINATION ${BINDIR}
+		LIBRARY DESTINATION ${RLIBDIR}
+		BUNDLE DESTINATION .)
+
 if (NOT USE_INSTALLED_WX)
 	set_target_properties(wxbase wxcore wxadv wxaui wxhtml wxnet PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
 	install(TARGETS wxbase wxcore wxadv wxaui wxhtml wxnet

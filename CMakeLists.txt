@@ -180,8 +180,8 @@ else()
 	message(FATAL_ERROR "Platform is not supported")
 endif()
 
-set_target_properties(qspgui PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
-install(TARGETS qspgui
+set_target_properties(qspgui qsp PROPERTIES INSTALL_RPATH "${INSTALL_RPATH}")
+install(TARGETS qspgui qsp
 		COMPONENT Main
 		RUNTIME DESTINATION ${BINDIR}
 		LIBRARY DESTINATION ${RLIBDIR}

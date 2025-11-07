@@ -73,14 +73,12 @@ msgstr "Additional desc"
 msgid "Bracket not found!"
 msgstr "Bracket not found!"
 
-msgid "Brackets not found!"
-msgstr "Brackets not found!"
 
 msgid "Can't add action!"
 msgstr "Can't add action!"
 
-msgid "Can't add file!"
-msgstr "Can't add file!"
+msgid "Can't include file!"
+msgstr "Can't include file!"
 
 msgid "Can't add menu item!"
 msgstr "Can't add menu item!"
@@ -106,6 +104,9 @@ msgstr ""
 msgid "Default"
 msgstr "Default"
 
+msgid "Internal error!"
+msgstr "Internal error!"
+
 msgid "Division by zero!"
 msgstr "Division by zero!"
 
@@ -118,8 +119,8 @@ msgstr "File not found!"
 msgid "Game not loaded!"
 msgstr "Game not loaded!"
 
-msgid "Incorrect arguments' count!"
-msgstr "Incorrect arguments' count!"
+msgid "Incorrect arguments count!"
+msgstr "Incorrect arguments count!"
 
 msgid "Incorrect variable name!"
 msgstr "Incorrect variable name!"
@@ -224,20 +225,17 @@ msgstr "Select links color"
 msgid "Select saved game file"
 msgstr "Select saved game file"
 
-msgid "Sign [:] not found!"
-msgstr "Sign [:] not found!"
+msgid "Token [:] not found!"
+msgstr "Token [:] not found!"
 
-msgid "Sign [=] not found!"
-msgstr "Sign [=] not found!"
-
-msgid "Stack overflow!"
-msgstr "Stack overflow!"
+msgid "Maximum location call depth exceeded!"
+msgstr "Maximum location call depth exceeded!"
 
 msgid "Syntax error!"
 msgstr "Syntax error!"
 
-msgid "Too many items in expression!"
-msgstr "Too many items in expression!"
+msgid "Expression too complex!"
+msgstr "Expression too complex!"
 
 msgid "Too many variables!"
 msgstr "Too many variables!"
@@ -263,8 +261,8 @@ msgstr ""
 msgid "Window / Fullscreen &mode\tAlt-Enter"
 msgstr "Window / Fullscreen &mode\tAlt-Enter"
 
-msgid "[end] not found!"
-msgstr "[end] not found!"
+msgid "Token [end] not found!"
+msgstr "Token [end] not found!"
 
 msgid "on action"
 msgstr "on action"

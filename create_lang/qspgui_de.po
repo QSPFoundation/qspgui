@@ -73,13 +73,11 @@ msgstr "Zusätzliche Bescheibung"
 msgid "Bracket not found!"
 msgstr "Die Anzahl der öffnenden und schließenden Klammern stimmt nicht überein!"
 
-msgid "Brackets not found!"
-msgstr "Die Klammern wurden nicht gefunden!"
 
 msgid "Can't add action!"
 msgstr "Aktion kann nicht hinzugefügt werden!"
 
-msgid "Can't add file!"
+msgid "Can't include file!"
 msgstr "Datei kann nicht hinzugefügt werden!"
 
 msgid "Can't add menu item!"
@@ -106,6 +104,9 @@ msgstr ""
 msgid "Default"
 msgstr "Default"
 
+msgid "Internal error!"
+msgstr "Interner Fehler!"
+
 msgid "Division by zero!"
 msgstr "Dieviedeirt durch 0!"
 
@@ -118,7 +119,7 @@ msgstr "Angegebene Datei ist nicht zugänglich bzw. wurde nicht gefunden!"
 msgid "Game not loaded!"
 msgstr "Spiel wurde nicht geladen!"
 
-msgid "Incorrect arguments' count!"
+msgid "Incorrect arguments count!"
 msgstr "Die Anzahl von Operators- oder Funktionsargumenten ist nicht korrekt!"
 
 msgid "Incorrect variable name!"
@@ -224,20 +225,17 @@ msgstr "Wählen Sie eine Farbe für Links"
 msgid "Select saved game file"
 msgstr "Wählen Sie eine Savegamedatei aus"
 
-msgid "Sign [:] not found!"
+msgid "Token [:] not found!"
 msgstr "Symbol [:] nicht gefunden!"
 
-msgid "Sign [=] not found!"
-msgstr "Symbol [=] nicht gefunden!"
-
-msgid "Stack overflow!"
-msgstr "Stack-Überlauf!"
+msgid "Maximum location call depth exceeded!"
+msgstr "Maximale Aufruftiefe für Locations überschritten!"
 
 msgid "Syntax error!"
 msgstr "Syntaxfehler!"
 
-msgid "Too many items in expression!"
-msgstr "Zu viele Elemente im Ausdruck!"
+msgid "Expression too complex!"
+msgstr "Ausdruck zu komplex!"
 
 msgid "Too many variables!"
 msgstr "Zu viele Variablen mit dem gleichen Hash!"
@@ -263,7 +261,7 @@ msgstr ""
 msgid "Window / Fullscreen &mode\tAlt-Enter"
 msgstr "Fenster- / Fullscreen-&Modus\tAlt-Enter"
 
-msgid "[end] not found!"
+msgid "Token [end] not found!"
 msgstr "Vielzeilige Operatoren müssen mit dem Wort [end] abgeschlossen werden!"
 
 msgid "on action"

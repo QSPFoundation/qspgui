@@ -73,13 +73,11 @@ msgstr "Kroma priskribo"
 msgid "Bracket not found!"
 msgstr "Kvanto de la malfermantaj kaj fermantaj krampoj ne koincidas!"
 
-msgid "Brackets not found!"
-msgstr "En komando mankas krampoj!"
 
 msgid "Can't add action!"
 msgstr "Ne eblas aldoni agon!"
 
-msgid "Can't add file!"
+msgid "Can't include file!"
 msgstr "Ne eblas aldoni dosieron!"
 
 msgid "Can't add menu item!"
@@ -106,6 +104,9 @@ msgstr ""
 msgid "Default"
 msgstr "Defaŭlte"
 
+msgid "Internal error!"
+msgstr "Interna eraro!"
+
 msgid "Division by zero!"
 msgstr "Divido je 0!"
 
@@ -118,7 +119,7 @@ msgstr "Indikita dosiero ne estas alirebla aŭ ne troviĝis!"
 msgid "Game not loaded!"
 msgstr "Ludo ne estas malfermita!"
 
-msgid "Incorrect arguments' count!"
+msgid "Incorrect arguments count!"
 msgstr "Neĝusta kvanto da argumentoj de operatoro / funkcio!"
 
 msgid "Incorrect variable name!"
@@ -224,20 +225,17 @@ msgstr "Elektu koloron de ligiloj"
 msgid "Select saved game file"
 msgstr "Elektu dosieron por malfermo"
 
-msgid "Sign [:] not found!"
+msgid "Token [:] not found!"
 msgstr "Signo [:] ne estas trovita!"
 
-msgid "Sign [=] not found!"
-msgstr "Signo [=] ne estas trovita!"
-
-msgid "Stack overflow!"
-msgstr "Superpleniĝo de stako!"
+msgid "Maximum location call depth exceeded!"
+msgstr "Maksimuma profundo de vokoj de loko superita!"
 
 msgid "Syntax error!"
 msgstr "Sintaksa eraro!"
 
-msgid "Too many items in expression!"
-msgstr "Tro multas elementoj en komando!"
+msgid "Expression too complex!"
+msgstr "Esprimo tro kompleksa!"
 
 msgid "Too many variables!"
 msgstr "Tro multas variabloj kun sama heŝ-kodo!"
@@ -263,7 +261,7 @@ msgstr ""
 msgid "Window / Fullscreen &mode\tAlt-Enter"
 msgstr "Fenestra / Plenfenestra reĝimo\tAlt-Enter"
 
-msgid "[end] not found!"
+msgid "Token [end] not found!"
 msgstr "Multliniaj formoj de operatoro finiĝu per vorto [end]!"
 
 msgid "on action"

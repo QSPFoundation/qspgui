@@ -73,13 +73,11 @@ msgstr "Дадатковае апісанне"
 msgid "Bracket not found!"
 msgstr "Не адпавядае колькасць дужак, што адкрываюць і закрываюць!"
 
-msgid "Brackets not found!"
-msgstr "У выражэнні адсутнічаюць дужкі!"
 
 msgid "Can't add action!"
 msgstr "Нельга дадаць дзеянне!"
 
-msgid "Can't add file!"
+msgid "Can't include file!"
 msgstr "Нельга дадаць файл!"
 
 msgid "Can't add menu item!"
@@ -106,6 +104,9 @@ msgstr ""
 msgid "Default"
 msgstr "Па змаўчанні"
 
+msgid "Internal error!"
+msgstr "Унутраная памылка!"
+
 msgid "Division by zero!"
 msgstr "Дзяленне на 0!"
 
@@ -118,7 +119,7 @@ msgstr "Указаны файл недаступны або не знойдзе�
 msgid "Game not loaded!"
 msgstr "Гульня не загружана!"
 
-msgid "Incorrect arguments' count!"
+msgid "Incorrect arguments count!"
 msgstr "Няправільная колькасць аргументаў аператара / функцыі!"
 
 msgid "Incorrect variable name!"
@@ -224,20 +225,17 @@ msgstr "Выберыце колер спасылак"
 msgid "Select saved game file"
 msgstr "Выберыце файл для загрузкі"
 
-msgid "Sign [:] not found!"
+msgid "Token [:] not found!"
 msgstr "Знак [:] не знойдзены!"
 
-msgid "Sign [=] not found!"
-msgstr "Знак [=] не знойдзены!"
-
-msgid "Stack overflow!"
-msgstr "Перапаўненне стэка!"
+msgid "Maximum location call depth exceeded!"
+msgstr "Перавышана максімальная глыбіня выклікаў лакацый!"
 
 msgid "Syntax error!"
 msgstr "Памылка сінтаксісу!"
 
-msgid "Too many items in expression!"
-msgstr "Занадта шмат элементаў у выражэнні!"
+msgid "Expression too complex!"
+msgstr "Выражэнне занадта складанае!"
 
 msgid "Too many variables!"
 msgstr "Занадта шмат пераменных з аднолькавым хэшэм!"
@@ -263,7 +261,7 @@ msgstr ""
 msgid "Window / Fullscreen &mode\tAlt-Enter"
 msgstr "Аконны / Поўнаэкранны &рэжым\tAlt-Enter"
 
-msgid "[end] not found!"
+msgid "Token [end] not found!"
 msgstr "Шматрадковыя формы аператараў павінны завяршацца словам [end]!"
 
 msgid "on action"

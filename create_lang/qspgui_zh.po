@@ -97,13 +97,11 @@ msgstr "附加描述"
 msgid "Bracket not found!"
 msgstr "未找到括号！"
 
-msgid "Brackets not found!"
-msgstr "未找到括号！"
 
 msgid "Can't add action!"
 msgstr "无法添加动作！"
 
-msgid "Can't add file!"
+msgid "Can't include file!"
 msgstr "无法添加文件！"
 
 msgid "Can't add menu item!"
@@ -124,6 +122,9 @@ msgstr "未找到代码！"
 msgid "Default"
 msgstr "默认"
 
+msgid "Internal error!"
+msgstr "内部错误！"
+
 msgid "Division by zero!"
 msgstr "除以零！"
 
@@ -136,7 +137,7 @@ msgstr "文件未找到！"
 msgid "Game not loaded!"
 msgstr "游戏未加载！"
 
-msgid "Incorrect arguments' count!"
+msgid "Incorrect arguments count!"
 msgstr "参数数量不正确！"
 
 msgid "Incorrect variable name!"
@@ -251,23 +252,20 @@ msgstr "选择链接颜色"
 msgid "Select saved game file"
 msgstr "选择已保存的游戏文件"
 
-msgid "Sign [:] not found!"
+msgid "Token [:] not found!"
 msgstr "未找到符号 [:]！"
-
-msgid "Sign [=] not found!"
-msgstr "未找到符号 [=]！"
 
 msgid "Sound &volume"
 msgstr "声音 &音量"
 
-msgid "Stack overflow!"
-msgstr "栈溢出！"
+msgid "Maximum location call depth exceeded!"
+msgstr "已超出位置调用的最大深度！"
 
 msgid "Syntax error!"
 msgstr "语法错误！"
 
-msgid "Too many items in expression!"
-msgstr "表达式中的项过多！"
+msgid "Expression too complex!"
+msgstr "表达式过于复杂！"
 
 msgid "Too many variables!"
 msgstr "变量过多！"
@@ -293,7 +291,7 @@ msgstr ""
 msgid "Window / Fullscreen &mode\tAlt-Enter"
 msgstr "窗口 / 全屏 &模式\tAlt-Enter"
 
-msgid "[end] not found!"
+msgid "Token [end] not found!"
 msgstr "未找到 [结束]"
 
 msgid "on action"

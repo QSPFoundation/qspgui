@@ -73,7 +73,6 @@ msgstr "Kroma priskribo"
 msgid "Bracket not found!"
 msgstr "Kvanto de la malfermantaj kaj fermantaj krampoj ne koincidas!"
 
-
 msgid "Can't add action!"
 msgstr "Ne eblas aldoni agon!"
 

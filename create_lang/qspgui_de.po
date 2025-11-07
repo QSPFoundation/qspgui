@@ -73,7 +73,6 @@ msgstr "Zusätzliche Bescheibung"
 msgid "Bracket not found!"
 msgstr "Die Anzahl der öffnenden und schließenden Klammern stimmt nicht überein!"
 
-
 msgid "Can't add action!"
 msgstr "Aktion kann nicht hinzugefügt werden!"
 

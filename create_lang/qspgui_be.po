@@ -73,7 +73,6 @@ msgstr "Дадатковае апісанне"
 msgid "Bracket not found!"
 msgstr "Не адпавядае колькасць дужак, што адкрываюць і закрываюць!"
 
-
 msgid "Can't add action!"
 msgstr "Нельга дадаць дзеянне!"
 

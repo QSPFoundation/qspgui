@@ -97,7 +97,6 @@ msgstr "附加描述"
 msgid "Bracket not found!"
 msgstr "未找到括号！"
 
-
 msgid "Can't add action!"
 msgstr "无法添加动作！"
 

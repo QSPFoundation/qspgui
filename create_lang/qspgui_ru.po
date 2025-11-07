@@ -73,7 +73,6 @@ msgstr "Дополнительное описание"
 msgid "Bracket not found!"
 msgstr "Не соответствует количество открывающих и закрывающих скобок!"
 
-
 msgid "Can't add action!"
 msgstr "Нельзя добавить действие!"
 

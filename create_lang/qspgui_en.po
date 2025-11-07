@@ -73,7 +73,6 @@ msgstr "Additional desc"
 msgid "Bracket not found!"
 msgstr "Bracket not found!"
 
-
 msgid "Can't add action!"
 msgstr "Can't add action!"
 

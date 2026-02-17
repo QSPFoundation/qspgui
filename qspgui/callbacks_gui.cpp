@@ -224,7 +224,8 @@ int QSPCallbacks::ShowPane(int type, QSP_BOOL toShow)
 int QSPCallbacks::Sleep(int msecs)
 {
     if (m_frame->ToQuit()) return 0;
-    bool canSave = m_frame->GetGameMenu()->IsEnabled(ID_SAVEGAMESTAT);
+    bool canSaveGame = m_frame->GetGameMenu()->IsEnabled(ID_SAVEGAMESTAT);
+    bool canQuicksave = m_frame->GetGameMenu()->IsEnabled(ID_QUICKSAVE);
     bool toBreak = false;
     m_frame->EnableControls(false, true);
     int i, count = msecs / 50;
@@ -247,8 +248,8 @@ int QSPCallbacks::Sleep(int msecs)
         wxTheApp->Yield(true);
     }
     m_frame->EnableControls(true, true);
-    m_frame->GetGameMenu()->Enable(ID_SAVEGAMESTAT, canSave);
-    m_frame->GetGameMenu()->Enable(ID_QUICKSAVE, canSave);
+    m_frame->GetGameMenu()->Enable(ID_SAVEGAMESTAT, canSaveGame);
+    m_frame->GetGameMenu()->Enable(ID_QUICKSAVE, canQuicksave);
     return 0;
 }
 

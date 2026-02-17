@@ -150,6 +150,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
         m_frame->EnableControls(true, true);
     }
     m_frame->GetGameMenu()->Enable(ID_SAVEGAMESTAT, canSave);
+    m_frame->GetGameMenu()->Enable(ID_QUICKSAVE, canSave);
     return 0;
 }
 
@@ -247,6 +248,7 @@ int QSPCallbacks::Sleep(int msecs)
     }
     m_frame->EnableControls(true, true);
     m_frame->GetGameMenu()->Enable(ID_SAVEGAMESTAT, canSave);
+    m_frame->GetGameMenu()->Enable(ID_QUICKSAVE, canSave);
     return 0;
 }
 

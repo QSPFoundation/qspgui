@@ -367,7 +367,7 @@ void QSPFrame::ShowPane(wxWindowID id, bool toShow)
 void QSPFrame::ApplyParams()
 {
     QSP_BIGINT numVal;
-    QSPString strVal;
+    QSP_CHAR strVal[256];
     wxColour setBackColor, setFontColor, setLinkColor;
     wxString setFontName;
     int setFontSize;
@@ -406,8 +406,8 @@ void QSPFrame::ApplyParams()
         if (ApplyFontSize(setFontSize)) toRefreshUI = true;
     }
     // --------------
-    setFontName = ((QSPGetStrVarValue(QSP_STATIC_STR(QSP_FMT("FNAME")), 0, &strVal) && !qspIsEmpty(strVal))
-        ? qspToWxString(strVal) : m_fontName);
+    setFontName = ((QSPGetStrVarValue(QSP_STATIC_STR(QSP_FMT("FNAME")), 0, strVal, WXSIZEOF(strVal)) && *strVal)
+        ? wxString(strVal) : m_fontName);
     if (!setFontName.IsSameAs(m_desc->GetTextFont().GetFaceName(), false))
     {
         if (ApplyFontName(setFontName))

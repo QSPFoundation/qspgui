@@ -86,7 +86,7 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
 {
     int changedState;
     QSP_BIGINT numVal;
-    QSPString strVal;
+    QSP_CHAR strVal[256];
     bool toScroll, canSave;
     if (m_frame->ToQuit()) return 0;
     changedState = QSPGetWindowsChangedState();
@@ -135,8 +135,8 @@ int QSPCallbacks::RefreshInt(QSP_BOOL isForced, QSP_BOOL isNewDesc)
     }
     m_frame->GetObjects()->SetSelection(QSPGetSelObjectIndex());
     // -------------------------------
-    if (QSPGetStrVarValue(QSP_STATIC_STR(QSP_FMT("BACKIMAGE")), 0, &strVal) && !qspIsEmpty(strVal))
-        m_frame->GetDesc()->LoadBackImage(qspToWxString(strVal));
+    if (QSPGetStrVarValue(QSP_STATIC_STR(QSP_FMT("BACKIMAGE")), 0, strVal, WXSIZEOF(strVal)) && *strVal)
+        m_frame->GetDesc()->LoadBackImage(wxString(strVal));
     else
         m_frame->GetDesc()->LoadBackImage(wxEmptyString);
     // -------------------------------

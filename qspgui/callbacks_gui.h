@@ -96,11 +96,6 @@
         return string;
     }
 
-    static bool qspIsEmpty(QSPString s)
-    {
-        return (s.Str == s.End);
-    }
-
     static wxString qspToWxString(QSPString s)
     {
         return wxString(s.Str, s.End);

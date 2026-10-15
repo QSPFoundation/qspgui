@@ -24,6 +24,8 @@
     #include <wx/scopeguard.h>
     #include <wx/filefn.h>
     #include <wx/uri.h>
+    #include <wx/filesys.h>
+    #include "pathprovider.h"
 
     #define QSP_APPNAME wxT("qspgui")
     #define QSP_CONFIG wxT("qspgui.cfg")
@@ -37,7 +39,9 @@
     class QSPTools
     {
     public:
+        static wxString GetBrowserURL(const wxString& url);
         static void LaunchDefaultBrowser(const wxString& url);
+        static wxString GetGameResourceURL(const PathProvider& pathProvider, const wxString& url);
         static wxString GetHexColor(const wxColour& color);
         static wxString HtmlizeWhitespaces(const wxString& str);
         static wxString ProceedAsPlain(const wxString& str);

@@ -477,7 +477,7 @@ wxString QSPFrame::ComposeGamePath(const wxString &relativePath) const
 bool QSPFrame::IsValidFullPath(const wxString &path) const
 {
     if (path.IsEmpty())
-        return true;
+        return false;
 
     wxFileName fullPath(path);
     fullPath.MakeAbsolute();

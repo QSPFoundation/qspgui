@@ -32,8 +32,10 @@ wxHtmlOpeningStatus QSPListBox::OnHTMLOpeningURL(wxHtmlURLType WXUNUSED(type), c
 {
     if (m_pathProvider)
     {
-        if (m_pathProvider->IsValidFullPath(url)) return wxHTML_OPEN;
-        *redirect = m_pathProvider->ComposeGamePath(url);
+        wxString resourceUrl(QSPTools::GetGameResourceURL(*m_pathProvider, url));
+        if (resourceUrl.IsEmpty()) return wxHTML_BLOCK;
+        if (resourceUrl == url) return wxHTML_OPEN;
+        *redirect = resourceUrl;
         return wxHTML_REDIRECT;
     }
     return wxHTML_OPEN;

@@ -17,25 +17,45 @@
 
 #include "comtools.h"
 
+wxString QSPTools::GetBrowserURL(const wxString& url)
+{
+    const wxURI uri(url);
+    if (!uri.HasScheme())
+    {
+        // Bare host names like www.example.com, not paths
+        if (url.IsEmpty() || url.Contains(wxT("\\")) || url.StartsWith(wxT("/")))
+            return wxEmptyString;
+        return wxT("http://") + url;
+    }
+    wxString scheme(uri.GetScheme().Lower());
+    if (scheme == wxT("http") || scheme == wxT("https") || scheme == wxT("mailto"))
+        return url;
+    return wxEmptyString;
+}
+
 void QSPTools::LaunchDefaultBrowser(const wxString& url)
 {
-    /* Validate URLs, don't allow opening files & directories */
-    bool canOpen;
-    const wxURI uri(url);
+    wxString target(GetBrowserURL(url));
+    if (!target.IsEmpty())
+        wxLaunchDefaultBrowser(target);
+}
 
-    if (uri.HasScheme())
-    {
-        canOpen = uri.GetScheme() == wxT("http")
-            || uri.GetScheme() == wxT("https")
-            || uri.GetScheme() == wxT("mailto");
-    }
+wxString QSPTools::GetGameResourceURL(const PathProvider& pathProvider, const wxString& url)
+{
+    if (url.IsEmpty() || pathProvider.GetGamePath().IsEmpty())
+        return wxEmptyString;
+
+    wxString path;
+    if (url.StartsWith(wxT("file:")))
+        path = wxFileSystem::URLToFileName(url).GetFullPath();
     else
     {
-        canOpen = !wxFileExists(url) && !wxDirExists(url);
+        wxFileName file(url, wxPATH_DOS);
+        path = (file.IsAbsolute() ? file.GetFullPath() : pathProvider.ComposeGamePath(url));
     }
-
-    if (canOpen)
-        wxLaunchDefaultBrowser(url);
+    if (!pathProvider.IsValidFullPath(path))
+        return wxEmptyString;
+    return wxFileSystem::FileNameToURL(wxFileName(path));
 }
 
 wxString QSPTools::GetHexColor(const wxColour& color)

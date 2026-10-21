@@ -29,7 +29,7 @@ bool QSPApp::OnInit()
     delete wxLog::SetActiveTarget(new wxLogStderr());
 
     wxInitAllImageHandlers();
-    QSPInit();
+    QSPInit((unsigned int)wxGetUTCTimeMillis().GetLo());
     InitUI();
     return true;
 }

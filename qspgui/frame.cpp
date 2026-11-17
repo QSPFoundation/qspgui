@@ -497,6 +497,7 @@ void QSPFrame::ShowError()
     wxString line(qspToWxString(errorInfo.IntLine));
     if (line.IsEmpty())
         line = _("Unknown");
+    int lineNum = (errorInfo.TopLineNum ? errorInfo.TopLineNum : errorInfo.IntLineNum);
 
     wxString wxMessage;
     if (!locName.IsEmpty())
@@ -504,7 +505,7 @@ void QSPFrame::ShowError()
             _("Location: %s\nArea: %s\nLine %d: %s\nCode: %d\nDesc: %s"),
             locName.wx_str(),
             (errorInfo.ActIndex < 0 ? _("on visit").wx_str() : _("on action").wx_str()),
-            errorInfo.TopLineNum,
+            lineNum,
             line.wx_str(),
             errorInfo.ErrorNum,
             wxGetTranslation(errorDesc).wx_str()
@@ -512,7 +513,7 @@ void QSPFrame::ShowError()
     else
         wxMessage = wxString::Format(
             _("Line %d: %s\nCode: %d\nDesc: %s"),
-            errorInfo.IntLineNum,
+            lineNum,
             line.wx_str(),
             errorInfo.ErrorNum,
             wxGetTranslation(errorDesc).wx_str()

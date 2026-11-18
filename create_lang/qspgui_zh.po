@@ -106,6 +106,9 @@ msgstr "无法添加文件！"
 msgid "Can't add menu item!"
 msgstr "无法添加菜单项！"
 
+msgid "Can't play file!"
+msgstr "无法播放文件！"
+
 msgid "Can't add object!"
 msgstr "无法添加对象！"
 
@@ -141,6 +144,12 @@ msgstr "参数数量不正确！"
 
 msgid "Incorrect variable name!"
 msgstr "变量名不正确！"
+
+msgid "Incorrect field name!"
+msgstr "字段名不正确！"
+
+msgid "Duplicate field name!"
+msgstr "字段名重复！"
 
 msgid "Info"
 msgstr "信息"

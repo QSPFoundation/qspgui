@@ -82,6 +82,9 @@ msgstr "Datei kann nicht hinzugefügt werden!"
 msgid "Can't add menu item!"
 msgstr "Menüstelle kann nicht hinzugefügt werden!"
 
+msgid "Can't play file!"
+msgstr "Datei kann nicht abgespielt werden!"
+
 msgid "Can't add object!"
 msgstr "Das Objekt kann nicht hinzugefügt werden!"
 
@@ -123,6 +126,12 @@ msgstr "Die Anzahl von Operators- oder Funktionsargumenten ist nicht korrekt!"
 
 msgid "Incorrect variable name!"
 msgstr "Variablename ist nicht korrekt!"
+
+msgid "Incorrect field name!"
+msgstr "Feldname ist nicht korrekt!"
+
+msgid "Duplicate field name!"
+msgstr "Doppelter Feldname!"
 
 msgid "Info"
 msgstr "Informationen"

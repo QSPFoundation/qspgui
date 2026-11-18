@@ -82,6 +82,9 @@ msgstr "Can't include file!"
 msgid "Can't add menu item!"
 msgstr "Can't add menu item!"
 
+msgid "Can't play file!"
+msgstr "Can't play file!"
+
 msgid "Can't add object!"
 msgstr "Can't add object!"
 
@@ -123,6 +126,12 @@ msgstr "Incorrect arguments count!"
 
 msgid "Incorrect variable name!"
 msgstr "Incorrect variable name!"
+
+msgid "Incorrect field name!"
+msgstr "Incorrect field name!"
+
+msgid "Duplicate field name!"
+msgstr "Duplicate field name!"
 
 msgid "Info"
 msgstr "Info"

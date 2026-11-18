@@ -82,6 +82,9 @@ msgstr "Нельзя добавить файл!"
 msgid "Can't add menu item!"
 msgstr "Нельзя добавить пункт меню!"
 
+msgid "Can't play file!"
+msgstr "Нельзя воспроизвести файл!"
+
 msgid "Can't add object!"
 msgstr "Нельзя добавить объект!"
 
@@ -123,6 +126,12 @@ msgstr "Неверное число аргументов оператора / ф
 
 msgid "Incorrect variable name!"
 msgstr "Недопустимое название переменной / массива!"
+
+msgid "Incorrect field name!"
+msgstr "Недопустимое название поля!"
+
+msgid "Duplicate field name!"
+msgstr "Повторяющееся название поля!"
 
 msgid "Info"
 msgstr "Информация"

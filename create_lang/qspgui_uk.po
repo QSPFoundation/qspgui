@@ -82,6 +82,9 @@ msgstr "Неможливо додати файл!"
 msgid "Can't add menu item!"
 msgstr "Неможливо додати пункт меню!"
 
+msgid "Can't play file!"
+msgstr "Неможливо відтворити файл!"
+
 msgid "Can't add object!"
 msgstr "Неможливо додати об`єкт!"
 
@@ -123,6 +126,12 @@ msgstr "Невірне число аргументів оператора / фу
 
 msgid "Incorrect variable name!"
 msgstr "Недопустима назва змінної / масиву!"
+
+msgid "Incorrect field name!"
+msgstr "Недопустима назва поля!"
+
+msgid "Duplicate field name!"
+msgstr "Повторювана назва поля!"
 
 msgid "Info"
 msgstr "Інформація"

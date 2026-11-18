@@ -82,6 +82,9 @@ msgstr "Ne eblas aldoni dosieron!"
 msgid "Can't add menu item!"
 msgstr "Ne eblas aldoni punkton de menuo!"
 
+msgid "Can't play file!"
+msgstr "Ne eblas ludi dosieron!"
+
 msgid "Can't add object!"
 msgstr "Ne eblas aldoni objekton!"
 
@@ -123,6 +126,12 @@ msgstr "Neĝusta kvanto da argumentoj de operatoro / funkcio!"
 
 msgid "Incorrect variable name!"
 msgstr "Ne taŭgas nomo de variablo / masivo!"
+
+msgid "Incorrect field name!"
+msgstr "Ne taŭgas nomo de kampo!"
+
+msgid "Duplicate field name!"
+msgstr "Ripetiĝas nomo de kampo!"
 
 msgid "Info"
 msgstr "Informo"

@@ -236,8 +236,8 @@ msgstr "Elektu dosieron por malfermo"
 msgid "Token [:] not found!"
 msgstr "Signo [:] ne estas trovita!"
 
-msgid "Maximum location call depth exceeded!"
-msgstr "Maksimuma profundo de vokoj de loko superita!"
+msgid "Maximum call depth exceeded!"
+msgstr "Maksimuma profundo de vokoj superita!"
 
 msgid "Syntax error!"
 msgstr "Sintaksa eraro!"

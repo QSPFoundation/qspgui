@@ -236,8 +236,8 @@ msgstr "Wählen Sie eine Savegamedatei aus"
 msgid "Token [:] not found!"
 msgstr "Symbol [:] nicht gefunden!"
 
-msgid "Maximum location call depth exceeded!"
-msgstr "Maximale Aufruftiefe für Locations überschritten!"
+msgid "Maximum call depth exceeded!"
+msgstr "Maximale Aufruftiefe überschritten!"
 
 msgid "Syntax error!"
 msgstr "Syntaxfehler!"

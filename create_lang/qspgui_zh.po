@@ -266,8 +266,8 @@ msgstr "未找到符号 [:]！"
 msgid "Sound &volume"
 msgstr "声音 &音量"
 
-msgid "Maximum location call depth exceeded!"
-msgstr "已超出位置调用的最大深度！"
+msgid "Maximum call depth exceeded!"
+msgstr "已超出最大调用深度！"
 
 msgid "Syntax error!"
 msgstr "语法错误！"

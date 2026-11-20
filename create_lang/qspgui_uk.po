@@ -236,8 +236,8 @@ msgstr "Виберіть файл для завантаження"
 msgid "Token [:] not found!"
 msgstr "Знак [:] не знайдено!"
 
-msgid "Maximum location call depth exceeded!"
-msgstr "Перевищено максимальну глибину викликів локацій!"
+msgid "Maximum call depth exceeded!"
+msgstr "Перевищено максимальну глибину викликів!"
 
 msgid "Syntax error!"
 msgstr "Помилка синтаксису!"
